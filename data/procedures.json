@@ -1,0 +1,622 @@
+[
+  {
+    "id": "proc_001",
+    "name": "Abdominocentesis",
+    "category": "A",
+    "page": 11,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_002",
+    "name": "ACTH response test",
+    "category": "A",
+    "page": 13,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_003",
+    "name": "Anaphylaxis – emergency treatment",
+    "category": "A",
+    "page": 15,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_004",
+    "name": "Arthrocentesis",
+    "category": "A",
+    "page": 16,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_005",
+    "name": "Aseptic preparation",
+    "category": "A",
+    "page": 20,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_006",
+    "name": "Barium contrast media",
+    "category": "B",
+    "page": 23,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": false,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_007",
+    "name": "Barium studies of the gastrointestinal tract",
+    "category": "B",
+    "page": 24,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_008",
+    "name": "Blood pressure measurement",
+    "category": "B",
+    "page": 26,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_009",
+    "name": "Blood sampling",
+    "category": "B",
+    "page": 31,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": false,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_010",
+    "name": "Blood smear preparation",
+    "category": "B",
+    "page": 35,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_011",
+    "name": "Blood transfusion",
+    "category": "B",
+    "page": 37,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_012",
+    "name": "Bone biopsy – needle",
+    "category": "B",
+    "page": 41,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_013",
+    "name": "Bone marrow aspiration",
+    "category": "B",
+    "page": 43,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_014",
+    "name": "Bronchoalveolar lavage",
+    "category": "B",
+    "page": 45,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": false,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_015",
+    "name": "Bronchoscopy",
+    "category": "B",
+    "page": 47,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_016",
+    "name": "Buccal mucosal bleeding time",
+    "category": "B",
+    "page": 49,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_017",
+    "name": "Cardiopulmonary–cerebral resuscitation",
+    "category": "C",
+    "page": 50,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_018",
+    "name": "Cerebrospinal fluid collection",
+    "category": "C",
+    "page": 55,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": false,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_019",
+    "name": "Chest drain placement",
+    "category": "C",
+    "page": 59,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_020",
+    "name": "Coagulation tests",
+    "category": "C",
+    "page": 62,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_021",
+    "name": "Cystocentesis",
+    "category": "C",
+    "page": 65,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_022",
+    "name": "Diagnostic peritoneal lavage",
+    "category": "D",
+    "page": 67,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": false,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_023",
+    "name": "Dystocia – emergency treatment",
+    "category": "D",
+    "page": 69,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": false,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_024",
+    "name": "Echocardiography",
+    "category": "E",
+    "page": 71,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": false,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_025",
+    "name": "Electrocardiography",
+    "category": "E",
+    "page": 76,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_026",
+    "name": "Endotracheal intubation",
+    "category": "E",
+    "page": 81,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_027",
+    "name": "Excretory urography",
+    "category": "E",
+    "page": 83,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_028",
+    "name": "Fine needle aspiration",
+    "category": "F",
+    "page": 86,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_029",
+    "name": "Gastric lavage",
+    "category": "G",
+    "page": 88,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_030",
+    "name": "Gastrostomy tube placement – percutaneous endoscopic",
+    "category": "G",
+    "page": 90,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_031",
+    "name": "Intraosseous cannula placement",
+    "category": "I",
+    "page": 92,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_032",
+    "name": "Intravenous catheter placement",
+    "category": "I",
+    "page": 94,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_033",
+    "name": "Intravenous urography",
+    "category": "I",
+    "page": 97,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_034",
+    "name": "Iodinated contrast media",
+    "category": "I",
+    "page": 98,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_035",
+    "name": "Myringotomy",
+    "category": "M",
+    "page": 100,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": false,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_036",
+    "name": "Nasal oxygen administration",
+    "category": "N",
+    "page": 102,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_037",
+    "name": "Naso-oesophageal tube placement",
+    "category": "N",
+    "page": 103,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_038",
+    "name": "Neurological examination",
+    "category": "N",
+    "page": 105,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": false,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_039",
+    "name": "Oesophagostomy tube placement",
+    "category": "O",
+    "page": 114,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_040",
+    "name": "Ophthalmic examination",
+    "category": "O",
+    "page": 116,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_041",
+    "name": "Orthopaedic examination",
+    "category": "O",
+    "page": 122,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_042",
+    "name": "Ortolani test",
+    "category": "O",
+    "page": 129,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_043",
+    "name": "Otoscopy",
+    "category": "O",
+    "page": 130,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_044",
+    "name": "Pericardiocentesis",
+    "category": "P",
+    "page": 132,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_045",
+    "name": "Platelet count",
+    "category": "P",
+    "page": 134,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_046",
+    "name": "Prostatic wash",
+    "category": "P",
+    "page": 135,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_047",
+    "name": "Resting energy requirement",
+    "category": "R",
+    "page": 137,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_048",
+    "name": "Retrograde urethrography/vaginourethrography",
+    "category": "R",
+    "page": 138,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_049",
+    "name": "Rhinoscopy",
+    "category": "R",
+    "page": 140,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_050",
+    "name": "Skin scrapes",
+    "category": "S",
+    "page": 142,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": false,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_051",
+    "name": "Surgical examination of the ear",
+    "category": "S",
+    "page": 144,
+    "hasIndications": false,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_052",
+    "name": "Thoracocentesis",
+    "category": "T",
+    "page": 148,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_053",
+    "name": "Tracheal wash – endotracheal",
+    "category": "T",
+    "page": 150,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_054",
+    "name": "Tracheal wash – transtracheal",
+    "category": "T",
+    "page": 152,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": false,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_055",
+    "name": "Tracheostomy tube placement",
+    "category": "T",
+    "page": 154,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": false,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_056",
+    "name": "Urethral catheterization – female dog",
+    "category": "U",
+    "page": 157,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_057",
+    "name": "Urethral catheterization – female cat",
+    "category": "U",
+    "page": 158,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_058",
+    "name": "Urethral catheterization – male dog",
+    "category": "U",
+    "page": 159,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_059",
+    "name": "Urethral catheterization – male cat",
+    "category": "U",
+    "page": 161,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_060",
+    "name": "Urinalysis",
+    "category": "U",
+    "page": 163,
+    "hasIndications": false,
+    "hasContraindications": false,
+    "hasEquipment": false,
+    "hasTechnique": false
+  },
+  {
+    "id": "proc_061",
+    "name": "Vaginoscopy",
+    "category": "V",
+    "page": 170,
+    "hasIndications": true,
+    "hasContraindications": false,
+    "hasEquipment": true,
+    "hasTechnique": true
+  },
+  {
+    "id": "proc_062",
+    "name": "Venepuncture",
+    "category": "V",
+    "page": 171,
+    "hasIndications": true,
+    "hasContraindications": true,
+    "hasEquipment": true,
+    "hasTechnique": false
+  }
+]
