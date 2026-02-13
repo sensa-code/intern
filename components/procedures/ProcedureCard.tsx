@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -20,6 +21,8 @@ export function ProcedureCard({
   onClick,
   showProgress = false,
 }: ProcedureCardProps) {
+  const router = useRouter();
+
   const getStatusIcon = () => {
     if (!progress) return <Circle className="h-4 w-4 text-gray-400" />;
 
@@ -57,7 +60,7 @@ export function ProcedureCard({
   return (
     <Card
       className="hover:shadow-lg transition-shadow cursor-pointer"
-      onClick={onClick}
+      onClick={onClick ?? (() => router.push(`/procedures/${procedure.id}`))}
     >
       <CardHeader>
         <div className="flex items-start justify-between">

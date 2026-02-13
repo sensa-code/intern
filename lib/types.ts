@@ -163,6 +163,52 @@ export interface ProgressStats {
 }
 
 // ================================================
+// 程序詳情頁用型別
+// ================================================
+
+/**
+ * 程序內容欄位鍵值（對應 vt_procedures 表的 TEXT 欄位）
+ */
+export type ProcedureContentField =
+  | 'indications'
+  | 'contraindications'
+  | 'equipment'
+  | 'patient_preparation'
+  | 'technique'
+  | 'procedure_steps'
+  | 'aftercare'
+  | 'complications';
+
+/**
+ * 詳情頁中一個已清理的內容區塊
+ */
+export interface ProcedureSection {
+  key: ProcedureContentField;
+  label: string;
+  content: string;
+}
+
+/**
+ * procedures_complete.json 單筆記錄的型別
+ * 注意：JSON 用 "procedure"，DB/Procedure type 用 "procedure_steps"
+ */
+export interface ProcedureJsonRecord {
+  id: string;
+  name: string;
+  category: string;
+  page_number: number;
+  indications: string;
+  contraindications: string;
+  equipment: string;
+  patient_preparation: string;
+  technique: string;
+  procedure: string;          // maps to procedure_steps in Procedure type
+  aftercare: string;
+  complications: string;
+  references: string;
+}
+
+// ================================================
 // 表單資料
 // ================================================
 
