@@ -32,7 +32,7 @@ export function useTrainingPlans() {
 
     fetchPlans();
 
-    // 訂閱即時更新
+    // 訂閱即時更新（Realtime 連線失敗不影響基本功能）
     const channel = supabase
       .channel('training_plans_changes')
       .on('postgres_changes',
@@ -49,7 +49,11 @@ export function useTrainingPlans() {
           }
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        if (status === 'CHANNEL_ERROR') {
+          console.debug('[Realtime] training_plans channel connection failed — real-time updates disabled');
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);
@@ -142,7 +146,7 @@ export function usePlanProcedures(planId: string | null, date?: Date) {
 
     fetchProcedures();
 
-    // 訂閱即時更新
+    // 訂閱即時更新（Realtime 連線失敗不影響基本功能）
     const channel = supabase
       .channel(`plan_${planId}_procedures`)
       .on('postgres_changes',
@@ -157,7 +161,11 @@ export function usePlanProcedures(planId: string | null, date?: Date) {
           fetchProcedures();
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        if (status === 'CHANNEL_ERROR') {
+          console.debug('[Realtime] plan_procedures channel connection failed — real-time updates disabled');
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);

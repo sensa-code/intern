@@ -1,18 +1,18 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, BookOpen, AlertTriangle, FileText } from 'lucide-react';
+import { ArrowLeft, BookOpen, AlertTriangle, FileText, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ProcedureContent } from '@/components/procedures/ProcedureContent';
 import { cleanOcrText } from '@/lib/text-cleaning';
+import { supabase } from '@/lib/supabase/client';
 import type { ProcedureContentField, ProcedureSection, ProcedureJsonRecord } from '@/lib/types';
 
-// WARNING: procedures_complete.json (~238KB) 會包含在 client bundle。
-// 62 筆記錄在 Phase 1 可接受。未來可改為 Server Component + Supabase 查詢。
+// procedures_complete.json (~238KB) 用於 OCR 內容完整文字
 import proceduresData from '@/data/procedures_complete.json';
 
 /** 內容區塊設定，依顯示順序 */
@@ -39,7 +39,7 @@ function getSectionIcon(key: string): React.ReactNode {
   }
 }
 
-/** Loading skeleton（含 ARIA 無障礙屬性） */
+/** Not Found 狀態 */
 function NotFoundState({ message }: { message: string }) {
   return (
     <div className="container mx-auto px-4 py-16 text-center">
@@ -54,15 +54,73 @@ function NotFoundState({ message }: { message: string }) {
   );
 }
 
+/** Loading 狀態 */
+function LoadingState() {
+  return (
+    <div className="container mx-auto px-4 py-16 text-center" role="status" aria-label="載入程序詳情">
+      <Loader2 className="mx-auto h-8 w-8 animate-spin text-muted-foreground mb-4" />
+      <p className="text-muted-foreground">載入中...</p>
+    </div>
+  );
+}
+
+/**
+ * 從 JSON 中查找程序（用 proc_XXX 格式的 procedure_id）
+ */
+function findInJson(procedureId: string): ProcedureJsonRecord | null {
+  const allData = proceduresData as ProcedureJsonRecord[];
+  return allData.find(p => p.id === procedureId) ?? null;
+}
+
 export default function ProcedureDetailPage() {
   const params = useParams();
   const router = useRouter();
   const id = typeof params?.id === 'string' ? params.id : null;
 
-  // 從 JSON 查找程序
-  const procedure = useMemo(() => {
-    if (!id) return null;
-    return (proceduresData as ProcedureJsonRecord[]).find(p => p.id === id) ?? null;
+  const [loading, setLoading] = useState(true);
+  const [procedure, setProcedure] = useState<ProcedureJsonRecord | null>(null);
+
+  useEffect(() => {
+    if (!id) {
+      setLoading(false);
+      return;
+    }
+
+    // 先嘗試直接從 JSON 查找（proc_XXX 格式）
+    const jsonMatch = findInJson(id);
+    if (jsonMatch) {
+      setProcedure(jsonMatch);
+      setLoading(false);
+      return;
+    }
+
+    // JSON 找不到 → 可能是 UUID，從 Supabase 查 procedure_id 再匹配 JSON
+    async function fetchFromSupabase() {
+      try {
+        const { data, error } = await supabase
+          .from('vt_procedures')
+          .select('procedure_id')
+          .eq('id', id)
+          .single();
+
+        if (error || !data) {
+          setLoading(false);
+          return;
+        }
+
+        // 用 Supabase 回傳的 procedure_id 去 JSON 找完整內容
+        const jsonData = findInJson(data.procedure_id);
+        if (jsonData) {
+          setProcedure(jsonData);
+        }
+      } catch {
+        // Supabase 查詢失敗，維持 not found 狀態
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchFromSupabase();
   }, [id]);
 
   // 清理所有內容欄位，過濾掉空的
@@ -85,6 +143,11 @@ export default function ProcedureDetailPage() {
   // Guard: 無效 ID
   if (!id) {
     return <NotFoundState message="無效的程序 ID" />;
+  }
+
+  // Loading 狀態
+  if (loading) {
+    return <LoadingState />;
   }
 
   // Guard: 找不到程序
