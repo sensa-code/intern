@@ -23,7 +23,11 @@ const PROCEDURE_NAMES: string[] = (proceduresData as Array<{ name: string }>)
  * 移除 "Procedures in Small Animal Practice N" 頁腳
  */
 function removeFooters(text: string): string {
-  return text.replace(/Procedures in Small Animal Practice\s+\d{1,3}/g, '');
+  return text
+    // 格式 1: "Procedures in Small Animal Practice 16"（文字在前）
+    .replace(/Procedures in Small Animal Practice\s+\d{1,3}/g, '')
+    // 格式 2: "16 Procedures in Small Animal Practice"（頁碼在前）
+    .replace(/\d{1,3}\s+Procedures in Small Animal Practice/g, '');
 }
 
 /**
