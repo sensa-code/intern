@@ -6,6 +6,8 @@ import type { TrainingPlan, PlanProcedure } from '../types';
 
 /**
  * 取得用戶的所有訓練計劃
+ *
+ * Realtime 訂閱只在用戶已驗證時啟用，避免未登入時的 WebSocket 重試風暴。
  */
 export function useTrainingPlans() {
   const [plans, setPlans] = useState<TrainingPlan[]>([]);
@@ -13,9 +15,20 @@ export function useTrainingPlans() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    async function fetchPlans() {
+    let channelRef: ReturnType<typeof supabase.channel> | null = null;
+
+    async function init() {
+      // 1. 先確認用戶是否已登入
+      const { data: { session } } = await supabase.auth.getSession();
+
+      // 2. 未登入 → 直接完成載入，不查詢也不訂閱
+      if (!session) {
+        setLoading(false);
+        return;
+      }
+
+      // 3. 已登入 → 載入資料
       try {
-        setLoading(true);
         const { data, error: fetchError } = await supabase
           .from('vt_training_plans')
           .select('*')
@@ -28,35 +41,33 @@ export function useTrainingPlans() {
       } finally {
         setLoading(false);
       }
+
+      // 4. 已登入 → 訂閱即時更新（Realtime 連線失敗不影響基本功能）
+      channelRef = supabase
+        .channel('training_plans_changes')
+        .on('postgres_changes',
+          { event: '*', schema: 'public', table: 'vt_training_plans' },
+          (payload) => {
+            if (payload.eventType === 'INSERT') {
+              setPlans(prev => [payload.new as TrainingPlan, ...prev]);
+            } else if (payload.eventType === 'UPDATE') {
+              setPlans(prev => prev.map(p =>
+                p.id === (payload.new as TrainingPlan).id ? payload.new as TrainingPlan : p
+              ));
+            } else if (payload.eventType === 'DELETE') {
+              setPlans(prev => prev.filter(p => p.id !== (payload.old as TrainingPlan).id));
+            }
+          }
+        )
+        .subscribe();
     }
 
-    fetchPlans();
-
-    // 訂閱即時更新（Realtime 連線失敗不影響基本功能）
-    const channel = supabase
-      .channel('training_plans_changes')
-      .on('postgres_changes',
-        { event: '*', schema: 'public', table: 'vt_training_plans' },
-        (payload) => {
-          if (payload.eventType === 'INSERT') {
-            setPlans(prev => [payload.new as TrainingPlan, ...prev]);
-          } else if (payload.eventType === 'UPDATE') {
-            setPlans(prev => prev.map(p =>
-              p.id === (payload.new as TrainingPlan).id ? payload.new as TrainingPlan : p
-            ));
-          } else if (payload.eventType === 'DELETE') {
-            setPlans(prev => prev.filter(p => p.id !== (payload.old as TrainingPlan).id));
-          }
-        }
-      )
-      .subscribe((status) => {
-        if (status === 'CHANNEL_ERROR') {
-          console.debug('[Realtime] training_plans channel connection failed — real-time updates disabled');
-        }
-      });
+    init();
 
     return () => {
-      supabase.removeChannel(channel);
+      if (channelRef) {
+        supabase.removeChannel(channelRef);
+      }
     };
   }, []);
 
@@ -103,6 +114,8 @@ export function useTrainingPlan(planId: string | null) {
 
 /**
  * 取得計劃中的程序排程
+ *
+ * Realtime 訂閱只在用戶已驗證時啟用。
  */
 export function usePlanProcedures(planId: string | null, date?: Date) {
   const [procedures, setProcedures] = useState<PlanProcedure[]>([]);
@@ -114,6 +127,8 @@ export function usePlanProcedures(planId: string | null, date?: Date) {
       setLoading(false);
       return;
     }
+
+    let channelRef: ReturnType<typeof supabase.channel> | null = null;
 
     async function fetchProcedures() {
       try {
@@ -144,31 +159,35 @@ export function usePlanProcedures(planId: string | null, date?: Date) {
       }
     }
 
-    fetchProcedures();
+    async function init() {
+      await fetchProcedures();
 
-    // 訂閱即時更新（Realtime 連線失敗不影響基本功能）
-    const channel = supabase
-      .channel(`plan_${planId}_procedures`)
-      .on('postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'vt_plan_procedures',
-          filter: `plan_id=eq.${planId}`
-        },
-        () => {
-          // 重新載入資料
-          fetchProcedures();
-        }
-      )
-      .subscribe((status) => {
-        if (status === 'CHANNEL_ERROR') {
-          console.debug('[Realtime] plan_procedures channel connection failed — real-time updates disabled');
-        }
-      });
+      // 只在已登入時訂閱 Realtime
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      channelRef = supabase
+        .channel(`plan_${planId}_procedures`)
+        .on('postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'vt_plan_procedures',
+            filter: `plan_id=eq.${planId}`
+          },
+          () => {
+            fetchProcedures();
+          }
+        )
+        .subscribe();
+    }
+
+    init();
 
     return () => {
-      supabase.removeChannel(channel);
+      if (channelRef) {
+        supabase.removeChannel(channelRef);
+      }
     };
   }, [planId, date]);
 

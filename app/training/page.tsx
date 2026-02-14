@@ -26,7 +26,7 @@ export default function TrainingPage() {
         <div className="text-center py-16">
           <p className="text-gray-500 text-lg mb-4">尚無訓練計劃</p>
           <p className="text-gray-400 mb-8">
-            請先設定 Supabase 並登入後，即可建立個人化訓練計劃。
+            登入後即可建立個人化訓練計劃，追蹤您的臨床程序學習進度。
           </p>
           <Button asChild>
             <Link href="/procedures">先瀏覽程序</Link>

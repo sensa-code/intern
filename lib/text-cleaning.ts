@@ -5,8 +5,13 @@
  * - "Procedures in Small Animal Practice N" 頁腳
  * - fi/fl 連字斷裂（"fl uid" → "fluid"）
  * - 相鄰程序的內容滲漏（content bleed）
+ * - 散落的單字母（OCR 在頁面邊緣偵測到的索引標記）
+ * - 區塊標題殘留（INDICATIONS、EQUIPMENT 等出現在非對應欄位中）
  *
- * 注意：不移除散落的單字母 A-Z，因為會破壞醫學內容如 "21 G"（針頭規格）、"pH" 等。
+ * 安全原則（Expert A 建議）：
+ * - 散落字母只移除「獨立成行」或「連續 3+」的模式，避免破壞 "type A"、"21 G"
+ * - 連字修復使用字典查找，不用通用正則
+ * - 區塊標題移除使用最長匹配優先
  */
 
 // WARNING: 只匯入精簡版 procedures.json（~15KB），
@@ -31,37 +36,115 @@ function removeFooters(text: string): string {
 }
 
 /**
- * 修復常見的 OCR 連字斷裂
- * 只修復已確認的安全模式，避免誤改有效文字
+ * OCR 連字修復字典
+ *
+ * 使用字典查找而非通用正則（Expert A 建議），
+ * 確保每個替換都經過驗證，避免誤改有效文字。
  */
+const LIGATURE_DICT: Record<string, string> = {
+  // fl 連字
+  'fl uid': 'fluid', 'fl uids': 'fluids',
+  'fl ow': 'flow', 'fl ows': 'flows',
+  'fl ap': 'flap', 'fl aps': 'flaps',
+  'fl ush': 'flush', 'fl ushed': 'flushed', 'fl ushing': 'flushing',
+  'fl exed': 'flexed', 'fl exion': 'flexion', 'fl exible': 'flexible',
+  'fl ex': 'flex', 'fl at': 'flat', 'fl oat': 'float',
+  'fl oor': 'floor', 'fl uorescence': 'fluorescence',
+  'fl uoroscopy': 'fluoroscopy', 'fl uoroscopic': 'fluoroscopic',
+  // fi 連字
+  'fi ndings': 'findings', 'fi nding': 'finding',
+  'fi rst': 'first', 'fi ne': 'fine', 'fi ner': 'finer',
+  'fi eld': 'field', 'fi elds': 'fields',
+  'fi lm': 'film', 'fi lms': 'films',
+  'fi ll': 'fill', 'fi lled': 'filled', 'fi lling': 'filling',
+  'fi lter': 'filter', 'fi ltered': 'filtered',
+  'fi brin': 'fibrin', 'fi brinogen': 'fibrinogen',
+  'fi bula': 'fibula', 'fi bular': 'fibular',
+  'fi xed': 'fixed', 'fi xation': 'fixation',
+  'fi nal': 'final', 'fi nger': 'finger', 'fi ngers': 'fingers',
+  'fi rmly': 'firmly', 'fi rm': 'firm',
+  'fi gure': 'figure', 'fi gures': 'figures',
+  'fi ve': 'five',
+  // fi 連字（複合詞中間）
+  'confi rm': 'confirm', 'confi rmed': 'confirmed', 'confi rming': 'confirming',
+  'confi dent': 'confident', 'confi dence': 'confidence',
+  'identifi ed': 'identified', 'identifi cation': 'identification',
+  'signifi cant': 'significant', 'signifi cance': 'significance',
+  'suffi cient': 'sufficient', 'insuffi cient': 'insufficient',
+  'specifi c': 'specific', 'specifi cally': 'specifically',
+  'benefi t': 'benefit', 'benefi ts': 'benefits', 'benefi cial': 'beneficial',
+  'diffi cult': 'difficult', 'diffi culty': 'difficulty',
+  'modifi ed': 'modified', 'modifi cation': 'modification',
+  'magni fi cation': 'magnification',
+};
+
 function fixLigatures(text: string): string {
-  return text
-    // fl 連字
-    .replace(/\bfl uid/g, 'fluid')
-    .replace(/\bfl ow/g, 'flow')
-    .replace(/\bfl ap/g, 'flap')
-    .replace(/\bfl ush/g, 'flush')
-    .replace(/\bfl exed/g, 'flexed')
-    .replace(/\bfl exion/g, 'flexion')
-    .replace(/\bfl ex\b/g, 'flex')
-    .replace(/\bfl at\b/g, 'flat')
-    // fi 連字
-    .replace(/\bfi ndings/g, 'findings')
-    .replace(/\bfi rst/g, 'first')
-    .replace(/\bfi ne\b/g, 'fine')
-    .replace(/\bfi eld/g, 'field')
-    .replace(/\bfi lm/g, 'film')
-    .replace(/\bfi ll/g, 'fill')
-    .replace(/\bfi brin/g, 'fibrin')
-    .replace(/\bfi bula/g, 'fibula')
-    .replace(/\bfi xed/g, 'fixed')
-    // fi 連字（複合詞中間）
-    .replace(/\bconfi rm/g, 'confirm')
-    .replace(/\bidentifi /g, 'identifi')
-    .replace(/\bsignifi /g, 'signifi')
-    .replace(/\bsuffi cient/g, 'sufficient')
-    .replace(/\binsuffi cient/g, 'insufficient')
-    .replace(/\bspecifi c/g, 'specific');
+  let result = text;
+  for (const [broken, fixed] of Object.entries(LIGATURE_DICT)) {
+    // 使用全域替換但保留大小寫敏感
+    const pattern = new RegExp(broken.replace(/\s+/g, '\\s+'), 'g');
+    result = result.replace(pattern, fixed);
+  }
+  return result;
+}
+
+/**
+ * 安全移除散落的 OCR 索引字母
+ *
+ * 只移除兩種安全模式（Expert A 建議）：
+ * 1. 獨立成行的單字母（如 "A\n" 或 "\nD\n"）
+ * 2. 連續 3 個以上單字母序列（如 "D E F G H"）— 明顯是 OCR 索引殘留
+ *
+ * 不移除文脈中的單字母（如 "type A blood"、"21 G needle"、"vitamin K"）
+ */
+function removeScatteredLetters(text: string): string {
+  // 模式 1: 移除連續 3+ 個單大寫字母的序列（如 "D E F G H I J"）
+  // 這些是 BSAVA 字母索引標籤的 OCR 殘留
+  let result = text.replace(
+    /(?:(?<=\s)|^)(?:[A-Z]\s+){3,}[A-Z](?=\s|$)/g,
+    ' '
+  );
+
+  // 模式 2: 獨立成行的單大寫字母（前後都是換行或字串邊界）
+  result = result.replace(
+    /(?:^|\n)\s*[A-Z]\s*(?:\n|$)/g,
+    '\n'
+  );
+
+  return result;
+}
+
+/**
+ * 移除欄位中殘留的區塊標題
+ *
+ * OCR 可能在 indications 欄位裡留有 "INDICATIONS" 標題文字，
+ * 或在 equipment 欄位裡出現 "TECHNIQUE" 等。
+ * 使用最長匹配優先（longest-match-first）避免部分匹配。
+ */
+const SECTION_HEADERS = [
+  'PATIENT PREPARATION AND POSITIONING',
+  'PATIENT PREPARATION',
+  'CONTRAINDICATIONS',
+  'PROCEDURE STEPS',
+  'COMPLICATIONS',
+  'INDICATIONS',
+  'EQUIPMENT',
+  'TECHNIQUE',
+  'AFTERCARE',
+  'PROCEDURE',
+  'REFERENCES',
+  'POSITIONING',
+];
+
+function removeSectionHeaders(text: string): string {
+  let result = text;
+  for (const header of SECTION_HEADERS) {
+    // 只移除全大寫的標題（OCR 源材料用全大寫表示區塊標題）
+    // 不使用 'i' flag，避免誤刪正文中的小寫詞如 "indications"、"technique"
+    const pattern = new RegExp(`\\b${header}\\s*:?\\s*`, 'g');
+    result = result.replace(pattern, '');
+  }
+  return result;
 }
 
 /**
@@ -90,7 +173,19 @@ function truncateContentBleed(text: string, currentProcedureName: string): strin
 }
 
 /**
- * 完整清理流程：頁腳移除 → 連字修復 → 滲漏截斷 → 空白正規化
+ * 移除 OCR 常見的參考文獻句尾殘留
+ * 如 "See also Figure 12.3" 或 "Refer to Chapter 5"
+ */
+function removeReferenceResidues(text: string): string {
+  return text
+    .replace(/See\s+(?:also\s+)?(?:Figure|Fig\.?|Chapter|Table)\s+\d[\d.–-]*/gi, '')
+    .replace(/\((?:Figure|Fig\.?|Table)\s+\d[\d.–-]*\)/gi, '');
+}
+
+/**
+ * 完整清理流程：
+ * 頁腳移除 → 區塊標題移除 → 連字修復 → 散落字母移除 →
+ * 參考殘留移除 → 滲漏截斷 → 空白正規化
  */
 export function cleanOcrText(
   text: string | null | undefined,
@@ -100,10 +195,16 @@ export function cleanOcrText(
 
   let cleaned = text;
   cleaned = removeFooters(cleaned);
+  cleaned = removeSectionHeaders(cleaned);
   cleaned = fixLigatures(cleaned);
+  cleaned = removeScatteredLetters(cleaned);
+  cleaned = removeReferenceResidues(cleaned);
   cleaned = truncateContentBleed(cleaned, currentProcedureName);
-  // 合併連續空白
-  cleaned = cleaned.replace(/\s{2,}/g, ' ').trim();
+  // 合併連續空白（保留單一換行作為段落分隔）
+  cleaned = cleaned
+    .replace(/[^\S\n]+/g, ' ')      // 非換行空白合併為單一空格
+    .replace(/\n{3,}/g, '\n\n')     // 多餘換行合併為最多兩行
+    .trim();
 
   return cleaned;
 }
