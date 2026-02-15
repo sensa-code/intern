@@ -9,7 +9,7 @@ export interface Procedure {
   category: string;
   page_number: number;
 
-  // 內容
+  // 內容（英文）
   indications: string | null;
   contraindications: string | null;
   equipment: string | null;
@@ -19,6 +19,16 @@ export interface Procedure {
   aftercare: string | null;
   complications: string | null;
   references: string | null;
+
+  // 內容（繁體中文翻譯）
+  indications_zh: string | null;
+  contraindications_zh: string | null;
+  equipment_zh: string | null;
+  patient_preparation_zh: string | null;
+  technique_zh: string | null;
+  procedure_steps_zh: string | null;
+  aftercare_zh: string | null;
+  complications_zh: string | null;
 
   // 元資料
   difficulty_level: number | null;
@@ -165,6 +175,11 @@ export interface ProgressStats {
 // ================================================
 // 程序詳情頁用型別
 // ================================================
+
+/**
+ * 內容語言切換
+ */
+export type ContentLocale = 'en' | 'zh';
 
 /**
  * 程序內容欄位鍵值（對應 vt_procedures 表的 TEXT 欄位）

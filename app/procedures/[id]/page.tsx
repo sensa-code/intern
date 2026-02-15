@@ -8,10 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ProcedureContent } from '@/components/procedures/ProcedureContent';
+import { LanguageToggle } from '@/components/procedures/LanguageToggle';
 import { cleanOcrText } from '@/lib/text-cleaning';
 import { getProcedureQuality, isContentSafeToShow } from '@/lib/data-quality';
 import { supabase } from '@/lib/supabase/client';
-import type { Procedure, ProcedureContentField, ProcedureSection } from '@/lib/types';
+import type { Procedure, ProcedureContentField, ProcedureSection, ContentLocale } from '@/lib/types';
 
 /** 內容區塊設定，依顯示順序 */
 const SECTION_CONFIG: { key: ProcedureContentField; label: string }[] = [
@@ -84,6 +85,7 @@ export default function ProcedureDetailPage() {
   const [loading, setLoading] = useState(true);
   const [procedure, setProcedure] = useState<Procedure | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [locale, setLocale] = useState<ContentLocale>('en');
 
   useEffect(() => {
     if (!id) {
@@ -133,20 +135,36 @@ export default function ProcedureDetailPage() {
     ? isContentSafeToShow(procedure.procedure_id)
     : true; // 預設可顯示
 
-  // 清理所有內容欄位，過濾掉空的
+  // 清理所有內容欄位，過濾掉空的（支援中英文切換）
   const cleanedSections = useMemo((): ProcedureSection[] => {
     if (!procedure || !safeToShow) return [];
 
     return SECTION_CONFIG
       .map(({ key, label }) => {
-        const rawValue = procedure[key] as string | null;
+        let rawValue: string | null;
+
+        if (locale === 'zh') {
+          // 中文模式：優先使用 _zh 欄位，fallback 到英文
+          const zhKey = `${key}_zh` as keyof Procedure;
+          rawValue = (procedure[zhKey] as string | null) || (procedure[key] as string | null);
+        } else {
+          rawValue = procedure[key] as string | null;
+        }
+
         if (!rawValue) return { key, label, content: '' };
 
-        const cleaned = cleanOcrText(rawValue, procedure.name);
-        return { key, label, content: cleaned };
+        // 中文內容是 AI 翻譯（乾淨的），不需要 OCR 清理
+        // 英文內容需要 OCR 清理
+        const zhKey = `${key}_zh` as keyof Procedure;
+        const isUsingZhContent = locale === 'zh' && Boolean(procedure[zhKey]);
+        const content = isUsingZhContent
+          ? rawValue.replace(/[^\S\n]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim()
+          : cleanOcrText(rawValue, procedure.name);
+
+        return { key, label, content };
       })
       .filter(s => s.content.length > 0);
-  }, [procedure, safeToShow]);
+  }, [procedure, safeToShow, locale]);
 
   // Guard: 無效 ID
   if (!id) {
@@ -206,6 +224,10 @@ export default function ProcedureDetailPage() {
               Page {procedure.page_number}
             </Badge>
           )}
+          {/* 語言切換 */}
+          <div className="ml-auto">
+            <LanguageToggle locale={locale} onLocaleChange={setLocale} />
+          </div>
         </div>
         <h1 className="text-3xl font-bold">{procedure.name}</h1>
       </div>
