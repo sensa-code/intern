@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '../supabase/client';
 import type { Procedure, ProcedureFilters, ProcedureProgress } from '../types';
+import { supabase } from '../supabase/client';
 
 /**
- * 取得所有程序
+ * 取得所有程序 — 透過 API Route 查詢（繞過 RLS）
  */
 export function useProcedures(filters?: ProcedureFilters) {
   const [procedures, setProcedures] = useState<Procedure[]>([]);
@@ -13,46 +13,45 @@ export function useProcedures(filters?: ProcedureFilters) {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function fetchProcedures() {
       try {
         setLoading(true);
-        let query = supabase
-          .from('vt_procedures')
-          .select('*')
-          .order('name');
+        setError(null);
 
-        // 應用過濾器
-        if (filters?.category) {
-          query = query.eq('category', filters.category);
+        const params = new URLSearchParams();
+        if (filters?.category) params.set('category', filters.category);
+        if (filters?.search) params.set('search', filters.search);
+
+        const url = `/api/procedures${params.toString() ? `?${params}` : ''}`;
+        const res = await fetch(url, { signal: controller.signal });
+
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
         }
 
-        if (filters?.search) {
-          query = query.ilike('name', `%${filters.search}%`);
-        }
-
-        if (filters?.difficulty && filters.difficulty.length > 0) {
-          query = query.in('difficulty_level', filters.difficulty);
-        }
-
-        const { data, error: fetchError } = await query;
-
-        if (fetchError) throw fetchError;
-        setProcedures((data as unknown as Procedure[]) || []);
+        const data: Procedure[] = await res.json();
+        setProcedures(data);
       } catch (err) {
-        setError(err as Error);
+        if ((err as Error).name !== 'AbortError') {
+          setError(err as Error);
+        }
       } finally {
         setLoading(false);
       }
     }
 
     fetchProcedures();
-  }, [filters?.category, filters?.search, filters?.difficulty]);
+
+    return () => controller.abort();
+  }, [filters?.category, filters?.search]);
 
   return { procedures, loading, error };
 }
 
 /**
- * 取得單一程序詳情
+ * 取得單一程序詳情 — 透過 API Route
  */
 export function useProcedure(procedureId: string | null) {
   const [procedure, setProcedure] = useState<Procedure | null>(null);
@@ -65,32 +64,47 @@ export function useProcedure(procedureId: string | null) {
       return;
     }
 
+    const controller = new AbortController();
+
     async function fetchProcedure() {
       try {
         setLoading(true);
-        const { data, error: fetchError } = await supabase
-          .from('vt_procedures')
-          .select('*')
-          .eq('id', procedureId)
-          .single();
+        setError(null);
 
-        if (fetchError) throw fetchError;
-        setProcedure(data as unknown as Procedure);
+        const res = await fetch(`/api/procedures/${procedureId}`, {
+          signal: controller.signal,
+        });
+
+        if (!res.ok) {
+          if (res.status === 404) {
+            setError(new Error('找不到此程序'));
+          } else {
+            throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+          }
+          return;
+        }
+
+        const data: Procedure = await res.json();
+        setProcedure(data);
       } catch (err) {
-        setError(err as Error);
+        if ((err as Error).name !== 'AbortError') {
+          setError(err as Error);
+        }
       } finally {
         setLoading(false);
       }
     }
 
     fetchProcedure();
+
+    return () => controller.abort();
   }, [procedureId]);
 
   return { procedure, loading, error };
 }
 
 /**
- * 取得程序進度
+ * 取得程序進度（仍使用 client-side Supabase，因為需要 auth）
  */
 export function useProcedureProgress(procedureId: string | null) {
   const [progress, setProgress] = useState<ProcedureProgress | null>(null);
@@ -121,7 +135,6 @@ export function useProcedureProgress(procedureId: string | null) {
           .single();
 
         if (fetchError && fetchError.code !== 'PGRST116') {
-          // PGRST116 = 沒有找到資料，這是正常的
           throw fetchError;
         }
 
@@ -178,7 +191,6 @@ export async function incrementPracticeCount(procedureId: string) {
     throw new Error('Not authenticated');
   }
 
-  // 首先取得當前進度
   const { data: currentProgress } = await supabase
     .from('vt_procedure_progress')
     .select('practice_count')

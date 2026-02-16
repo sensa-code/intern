@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,8 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "獸醫住院醫師訓練系統",
-  description: "基於 BSAVA 臨床程序指南的個人化訓練計劃管理",
+  title: {
+    default: "VetTrainer — 獸醫住院醫師訓練系統",
+    template: "%s | VetTrainer",
+  },
+  description: "基於 BSAVA 臨床程序指南的個人化訓練計劃管理，涵蓋 62 個獸醫臨床程序。",
 };
 
 export default function RootLayout({
@@ -26,32 +30,11 @@ export default function RootLayout({
   return (
     <html lang="zh-TW">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
-        {/* Server-rendered 導航列 — 純 Link，無需 usePathname */}
-        <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-          <nav className="container mx-auto px-4 h-14 flex items-center gap-6">
-            <Link
-              href="/"
-              className="font-semibold text-lg hover:opacity-80 transition-opacity"
-            >
-              VetTrainer
-            </Link>
-            <Link
-              href="/procedures"
-              className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              程序資料庫
-            </Link>
-            <Link
-              href="/training"
-              className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              訓練計劃
-            </Link>
-          </nav>
-        </header>
-        {children}
+        <Navbar />
+        <div className="flex-1">{children}</div>
+        <Footer />
       </body>
     </html>
   );

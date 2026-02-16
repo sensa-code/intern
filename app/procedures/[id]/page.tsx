@@ -11,7 +11,6 @@ import { ProcedureContent } from '@/components/procedures/ProcedureContent';
 import { LanguageToggle } from '@/components/procedures/LanguageToggle';
 import { cleanOcrText } from '@/lib/text-cleaning';
 import { getProcedureQuality, isContentSafeToShow } from '@/lib/data-quality';
-import { supabase } from '@/lib/supabase/client';
 import type { Procedure, ProcedureContentField, ProcedureSection, ContentLocale } from '@/lib/types';
 
 /** 內容區塊設定，依顯示順序 */
@@ -96,25 +95,16 @@ export default function ProcedureDetailPage() {
     async function fetchProcedure() {
       if (!id) return;
       try {
-        // 嘗試用 proc_XXX 格式查詢
-        let query = supabase.from('vt_procedures').select('*');
+        const res = await fetch(`/api/procedures/${id}`);
 
-        if (id.startsWith('proc_')) {
-          query = query.eq('procedure_id', id);
-        } else {
-          // UUID 格式
-          query = query.eq('id', id);
-        }
-
-        const { data, error: fetchError } = await query.single();
-
-        if (fetchError || !data) {
-          setError('找不到此程序');
+        if (!res.ok) {
+          setError(res.status === 404 ? '找不到此程序' : '載入失敗');
           setLoading(false);
           return;
         }
 
-        setProcedure(data as unknown as Procedure);
+        const data: Procedure = await res.json();
+        setProcedure(data);
       } catch {
         setError('載入失敗');
       } finally {
