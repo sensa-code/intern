@@ -1,0 +1,1056 @@
+{
+  "proc_001": {
+    "status": "success",
+    "name": "Abdominocentesis",
+    "rag_count": 14,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "abdominocentesis\nIndication\nAnalysis of peritoneal fluid obtained by abdomino-\ncentesis is a useful ...",
+      "contraindications": "med \nin animals with distended viscera, care should be taken \nto avoid enterocentesis. The presence ...",
+      "equipment": "or Veterinary Technicians\nbacterial infection, splenic or hepatic torsion, urinary \ntract leakage, a...",
+      "patient_preparation": null,
+      "technique": "ic (lidocaine/mepivacaine)\nPatient Prep \nSeveral sites are available for performing abdomino-\ncentes...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_002": {
+    "status": "success",
+    "name": "ACTH response test",
+    "rag_count": 13,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "eractions have either been reported or are theoretical in humans or animals receiving corticotropin ...",
+      "contraindications": "ests should not be performed on the same day.\n \nACTH stimulates the adrenal cortex (particularly the...",
+      "equipment": "ests support hyperadrenocorticism, and ACTH level is below\nthe normal range, a diagnosis of adrenal ...",
+      "patient_preparation": null,
+      "technique": "harmacies. Based on a recent\nstudy performed in normal dogs, it was\nrecommended determine serum cort...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_003": {
+    "status": "success",
+    "name": "Anaphylaxis – emergency treatment",
+    "rag_count": 16,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "is pink, brown or contains a precipitate. It is unstable in 5% dextrose.\nContraindications: The use ...",
+      "contraindications": "■ Dogs can receive up to 20 ml/kg over a 2 - to 3 - hour period under emergent condi-\ntions, or 5 to...",
+      "equipment": null,
+      "patient_preparation": null,
+      "technique": "ort through the\nmaintenance of an open airway, preventing\ncirculatory collapse, and reestablishing\np...",
+      "procedure_steps": null,
+      "aftercare": "IVE DRUG(S)\nN/A\nFOLLOW-UP\nPATIENT MONITORING\nClosely monitor hospitalized patients for\n24–48 hours.\n...",
+      "complications": "servation if the substance \nappears to have been ingested. \n• \nCharacteristic signs as described abo..."
+    },
+    "db_updated": true
+  },
+  "proc_004": {
+    "status": "success",
+    "name": "Arthrocentesis",
+    "rag_count": 18,
+    "filled_sections": 3,
+    "sections": {
+      "indications": "nd increased susceptibility to\nstructural damage and development of arthritis.\nBackground and Indica...",
+      "contraindications": null,
+      "equipment": "olsworth IG, Hornof WJ: Selfretaining braces for canine arthroscopy. Vet Surg 33:77, 2004\nAUTHOR: IA...",
+      "patient_preparation": null,
+      "technique": "tory and imaging studies. When\nindicated, radiographs of affected joints and limbs should precede ar...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_005": {
+    "status": "success",
+    "name": "Aseptic preparation",
+    "rag_count": 20,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "s. A, Hygrometry must be maintained high to prevent desicca-\ntion. B, Isoflurane bubbling in bath wi...",
+      "contraindications": "ner (2nd edn). W.B. Saunders Company, Philadelphia.\nWiggs, R.B. and Lobprise, H.B. (1997) Veterinary...",
+      "equipment": "imes use no sedation or anesthesia unless the animal shows signs of resentment or discomfort.\nThe pr...",
+      "patient_preparation": "g sedation and local anal-\ngesia (Elce & Richardson, 2002). Short skin incisions, multiple \nentries ...",
+      "technique": "tic\n2. There are at least three methods to accomplish the final aseptic\napplication\na. Method 1: usi...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_006": {
+    "status": "success",
+    "name": "Barium contrast media",
+    "rag_count": 12,
+    "filled_sections": 6,
+    "sections": {
+      "indications": "viscous contrast solution through catheter.\nA 12-hour fast if sedating animal\nPlacement of IV cathet...",
+      "contraindications": "RATION: IMPORTANT CHECKPOINTS\nSurvey films of thorax and cervical region:\nIf contraindications are p...",
+      "equipment": "iodinated contrast medium (a nonionic medium should be used)\nCaution should be used in animals with ...",
+      "patient_preparation": "nt mixed with food to give as full an\nassessment of esophageal function as possible.\nFluoroscopic pr...",
+      "technique": "nimal has projectile vomiting and/or radiographic evidence of severe gastric fluid\nretention, the ri...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "er cent\nbarium sulphate suspension) are given per os\nor via the cloaca. Air is used as a negative\nco..."
+    },
+    "db_updated": true
+  },
+  "proc_007": {
+    "status": "success",
+    "name": "Barium studies of the gastrointestinal tract",
+    "rag_count": 14,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "gure 12).\nSummary\nBarium contrast exam ination is indicated for thor­\nough evaluation of avian gastr...",
+      "contraindications": null,
+      "equipment": "); actual time spent performing the study is approximately 1.5 hours.\nAbout 2-3 hours to complete th...",
+      "patient_preparation": null,
+      "technique": "r gastrointestinal tract.\nUpper Gastrointestinal (GI) Series\nUpper GI series can be performed to hel...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "ul. Barium should be avoided in \npatients suspected of gastrointestinal perforation. Gastric retenti..."
+    },
+    "db_updated": true
+  },
+  "proc_008": {
+    "status": "success",
+    "name": "Blood pressure measurement",
+    "rag_count": 20,
+    "filled_sections": 6,
+    "sections": {
+      "indications": "men is larger.\nAmputation (if area being biopsied is on a limb); indicated if pathologic fracture is...",
+      "contraindications": "ure measurement \nresults, especially systolic blood pressure, and so \nthe same cuff position should ...",
+      "equipment": "n.\nTherefore, it is often preferable to measure BP acutely (i.e., during a clinical examination or d...",
+      "patient_preparation": "nical cases of systemic hypertension (see p. 1068).\nINDICATIONS\nPresence of clinical signs of system...",
+      "technique": "meticulous attention must be\npaid to obtaining strong, audible signals in order to obtain the most a...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "• Obtain BP measurements prior to a physical ex-\namination or other manipulations to which the \nanim..."
+    },
+    "db_updated": true
+  },
+  "proc_009": {
+    "status": "success",
+    "name": "Blood sampling",
+    "rag_count": 17,
+    "filled_sections": 3,
+    "sections": {
+      "indications": null,
+      "contraindications": null,
+      "equipment": "h 70% alcohol (isopropyl)\nB. A 3- or 12-mL syringe or Vacutainer holder\nC. A 20- to 22-gauge needle\n...",
+      "patient_preparation": "RORS TO AVOID\nHematoma\nAn insufficient amount of sample can produce an incorrect blood-to-anticoagul...",
+      "technique": "‘home alone’?\nBlood sampling, intravenous injection and \nother procedures\nA fairly common practice i...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_010": {
+    "status": "success",
+    "name": "Blood smear preparation",
+    "rag_count": 20,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "torage. Vet Clin North Am Small\nAnim Pract 25:1263–76.\n15 Wardrop KJ, Owen TJ, Meyers KM. 1994. Eval...",
+      "contraindications": null,
+      "equipment": "resh blood sample using a Vacutainer® needle into \na 2 ml BTT or use a syringe containing citrate (1...",
+      "patient_preparation": "RORS TO AVOID\nHematoma\nAn insufficient amount of sample can produce an incorrect blood-to-anticoagul...",
+      "technique": "ytes (5435 × .06) = 326\nBasophils (5435 × .01) = 54\nEosinophils (5435 × .03) = 163\nSmear Preparation...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_011": {
+    "status": "success",
+    "name": "Blood transfusion",
+    "rag_count": 17,
+    "filled_sections": 7,
+    "sections": {
+      "indications": "ican Veterinary Medical \nAssociation 210, 794–798\nIazbik MC, Ochoa PG, Westendorf N et al. (2007) Ef...",
+      "contraindications": "possibly contaminated by malignant cells should be \nconsidered contraindicated unless under extreme,...",
+      "equipment": "sion; discard if discolored. Monitor patients closely during the transfusion. Transfusion\nadministra...",
+      "patient_preparation": "tion. pp. 263–302.\n\n522 Chapter 21: Transfusion Medicine\nCHAPTER 21\nBergeron, DA. 2005. Component pr...",
+      "technique": "ge and practices in human transfusion \nmedicine, as well as the advancing capabilities of \ngeneral p...",
+      "procedure_steps": null,
+      "aftercare": "the Blood Transfusion \nServices in the United Kingdom, 7th edn. The Stationery Ofﬁce, \nNorwich\nPritt...",
+      "complications": "fusion\nDecreases transfusion efficacy but usually produces no clinical signs\nAnaphylactic reactions:..."
+    },
+    "db_updated": true
+  },
+  "proc_012": {
+    "status": "success",
+    "name": "Bone biopsy – needle",
+    "rag_count": 20,
+    "filled_sections": 6,
+    "sections": {
+      "indications": "ime a bone \nmarrow biopsy is submitted for evaluation and com-\nparison.\nTeChniCian Tip 7.2: Do not u...",
+      "contraindications": "hiosis, histoplasmosis\n• Metastatic carcinoma, mast cell tumour\nHypercalcaemia, fever of unknown ori...",
+      "equipment": "crossing the soft\ntissues but is removed before entering bone. C, Second stylet that is inserted ret...",
+      "patient_preparation": "ng is valuable as a screening tool for cardiac\narrhythmias.\nUndiagnosed lesions or masses identiﬁed ...",
+      "technique": "rallel to plane of ultrasound beam, as already described.\nApply suction to syringe three to four tim...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "ical signs of hemorrhage) is a\ncontraindication for the procedure.\nDiscuss risks with owner, includi..."
+    },
+    "db_updated": true
+  },
+  "proc_013": {
+    "status": "success",
+    "name": "Bone marrow aspiration",
+    "rag_count": 16,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "craniectomy with good cortical visualization\nmay be helpful in addition to obtaining a biopsy sample...",
+      "contraindications": "hiosis, histoplasmosis\n• Metastatic carcinoma, mast cell tumour\nHypercalcaemia, fever of unknown ori...",
+      "equipment": "one marrow needles. A, Needle. B,\nNeedle guard. C, Cap. D, Stylet.\nBONE MARROW ASPIRATION/CORE BIOPS...",
+      "patient_preparation": "of aspiration procedure\nPEARLS\nhttp://www.clinicalvetadvisor2.com/html/bc/ch005s001_s002_s014.php......",
+      "technique": "iously affect their staining.\nReferences\n1. Weiss DJ, Smith SA. Collection and assessment of canine ...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_014": {
+    "status": "success",
+    "name": "Bronchoalveolar lavage",
+    "rag_count": 16,
+    "filled_sections": 3,
+    "sections": {
+      "indications": "lightly cloudy. \nBronchoalveolar lavage can be per­\nformed in conscious sheep by insertion of \n1.7 m...",
+      "contraindications": null,
+      "equipment": "e to clean the patient’s nares prior to \nbeginning. \nProcedure\nThe bronchoalveolar lavage catheter i...",
+      "patient_preparation": null,
+      "technique": "pulmonary \nhemorrhage.64 \nBronchoalveolar lavage \nBronchoalveolar lavage provides a sample \nof secre...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_015": {
+    "status": "success",
+    "name": "Bronchoscopy",
+    "rag_count": 20,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "improves diag-\nnostic accuracy, and it also allows the clinician to better \nunderstand underlying di...",
+      "contraindications": null,
+      "equipment": "ould be cleaned and ready for use.\nAll supplies and equipment should be available before starting th...",
+      "patient_preparation": null,
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": "ﬂuid to determine the contribution of small airway disease to\nrespiratory signs.\nSigniﬁcant complica...",
+      "complications": "erpretation of bronchoscopic findings is included \nin specific disease chapters. \nComplications \nThe..."
+    },
+    "db_updated": true
+  },
+  "proc_016": {
+    "status": "success",
+    "name": "Buccal mucosal bleeding time",
+    "rag_count": 14,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "l hemorrhage (petechiae/ecchymoses, gingival bleeding, epistaxis, melena, hematuria) in animals with...",
+      "contraindications": null,
+      "equipment": "ing buccal mucosal bleeding time (BMBT).\nhttp://www.clinicalvetadvisor2.com/html/bc/ch003s001_s002_s...",
+      "patient_preparation": "eeding times of healthy dogs in various\npathologic states, including thrombocytopenia, anemia and vo...",
+      "technique": "incision \nis made in a non-vascular area of the mucosa with a \nspring-loaded cutting device (e.g. Si...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_017": {
+    "status": "success",
+    "name": "Cardiopulmonary–cerebral resuscitation",
+    "rag_count": 14,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "ALTERNATIVES AND THEIR RELATIVE MERITS\nThere are many approaches to and controversies associated wit...",
+      "contraindications": "://www.clinicalvetadvisor2.com/html/bc/ch003s001_s003_s001.php...\n2 de 4\n30-09-2011 23:12\n\nCardiopul...",
+      "equipment": null,
+      "patient_preparation": "art J 11(3):269–274.\nKass, PH, Haskins, SC. 1992. Survival following cardiopulmonary resuscitation i...",
+      "technique": "12 : 261 – 267 . \n Cole , SG , Otto , CM , and Hughes , D. Cardiopulmonary cerebral resuscitation in...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "gical brain death within 4–6 minutes of \nCPA (Safar 1986, 1988). Therefore, prompt cardiopulmonary c..."
+    },
+    "db_updated": true
+  },
+  "proc_018": {
+    "status": "success",
+    "name": "Cerebrospinal fluid collection",
+    "rag_count": 15,
+    "filled_sections": 4,
+    "sections": {
+      "indications": null,
+      "contraindications": null,
+      "equipment": "l signs as-\nsociated with central nervous system, the\ncerebrospinal fluid is examined.\n3. For the ev...",
+      "patient_preparation": "me dog, showing bony landmarks and site of needle\ninsertion.\nhttp://www.clinicalvetadvisor2.com/html...",
+      "technique": "e \nare fractured. Abnormal rigidity or flexi­\nbility of the vertebral column, such as occurs \nin atl...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "ins \ncan cause a concomitant increase in the CSF pressure, \nwhich may help facilitate the collection..."
+    },
+    "db_updated": true
+  },
+  "proc_019": {
+    "status": "success",
+    "name": "Chest drain placement",
+    "rag_count": 18,
+    "filled_sections": 3,
+    "sections": {
+      "indications": "able (Clementsen et al. 1998).\nRecently, a modified Seldinger technique was used to \nplace small-bor...",
+      "contraindications": null,
+      "equipment": "d to drain a large volume effusion from the pleural space. When placing\na chest tube, sterile techni...",
+      "patient_preparation": null,
+      "technique": "is applied making a stab incision two to three ribs caudal to the thoracotomy and tunneling the \ntub...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_020": {
+    "status": "success",
+    "name": "Coagulation tests",
+    "rag_count": 20,
+    "filled_sections": 6,
+    "sections": {
+      "indications": "rs and on platelet\nfunction. Curr Drug Targets 3:247–58.\n75 Monroe DM, Hoffman M. 2006. What does it...",
+      "contraindications": "oneum, hemarthrosis, gastrointestinal \nbleeding, epistaxis, and excessive bleeding from trauma or su...",
+      "equipment": "tests are performed in patients exhibiting signs \nof questionable clotting abilities. These tests or...",
+      "patient_preparation": "l., \n1988). These values may differ slightly depending on \ntechnique, and each clinician should test...",
+      "technique": "clotting \nsystem), \nactivated \npartial \nthromboplastin time (an indicator of \nfunctionality of the i...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "on of the coagulation system: platelet count, antithrombin III,\nactivated coagulation time (ACT) or ..."
+    },
+    "db_updated": true
+  },
+  "proc_021": {
+    "status": "success",
+    "name": "Cystocentesis",
+    "rag_count": 19,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "us bacteria.\nUrethral catheterization: minimally invasive; may be more uncomfortable than cystocente...",
+      "contraindications": "nate method is the “pooling” technique, which may help to\n\nidentify the ideal location for cystocent...",
+      "equipment": "ormed awake, but sedation or general anesthesia does not preclude it. The following equipment\nshould...",
+      "patient_preparation": null,
+      "technique": "and hold the bladder in place with one hand; use the\nother hand to puncture the bladder with a steri...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_022": {
+    "status": "success",
+    "name": "Diagnostic peritoneal lavage",
+    "rag_count": 16,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "osure) warrants bathing with warm water and a mild dishwashing\ndetergent. Care should be taken to pr...",
+      "contraindications": null,
+      "equipment": "for analysis. However, if a patient arrives early in the disease process, \nthere may be very little ...",
+      "patient_preparation": "lavage fluid to evaluate suspected intraabdominal disease\nINDICATIONS\nAnimals with suspected abdomin...",
+      "technique": "ete removal of the infused fluid is not necessary and\ntypically is not possible.\nReferences\n1. Rudlo...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "ive struggling by the animal may result in contamination of the sterile\nfield or increased risk of a..."
+    },
+    "db_updated": true
+  },
+  "proc_023": {
+    "status": "success",
+    "name": "Dystocia – emergency treatment",
+    "rag_count": 18,
+    "filled_sections": 6,
+    "sections": {
+      "indications": "n System Disorders 343\nCHAPTER 15\nextreme, reversal agents can be administered (Davidson 2008). Topi...",
+      "contraindications": "inary literature. Additionally, stillbirth rates have been \nshown to rise when dystocia is allowed t...",
+      "equipment": "ation\nWhen the bitch presents in dystocia, she should be \nplaced in a quiet room with bedding on the...",
+      "patient_preparation": null,
+      "technique": "ergencies\nCHAPTER 15\nHackett, T. 2003. Dystocia: Push or Pull? Proceedings: 9th International Veteri...",
+      "procedure_steps": null,
+      "aftercare": "administration. r Contractions may resume\nwith calcium treatment and rehydration\nalone. r Delaying s...",
+      "complications": "gs using plasma atrial\nnatriuretic factor, B-type natriuretic factor,\nendothelin and cardiac troponi..."
+    },
+    "db_updated": true
+  },
+  "proc_024": {
+    "status": "success",
+    "name": "Echocardiography",
+    "rag_count": 15,
+    "filled_sections": 3,
+    "sections": {
+      "indications": "cers to obtain quality images of near-field structures.\nUse low-frequency transducers for quality Do...",
+      "contraindications": null,
+      "equipment": "n cats. Transesophageal echocardiography \nhas limited application in feline cardiology. The small \np...",
+      "patient_preparation": "aorta\nshould appear circular in the center of the image). The right ventricular inflow tract should ...",
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_025": {
+    "status": "success",
+    "name": "Electrocardiography",
+    "rag_count": 17,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "ter electrocardiography, a veterinary \ntechnician must understand the indications for perform-\ning a...",
+      "contraindications": "PARATION: IMPORTANT CHECKPOINTS\nCheck that the electrocardiograph has sufficient paper supply and is...",
+      "equipment": "ctrical cardioversion 174 \nElectrocardiography \nambulatory monitoring \nHolter 72-3, 207 \nindications...",
+      "patient_preparation": "TERACTIONS\nN/A\nFOLLOW-UP\nPATIENT MONITORING\nECG regularly\nPREVENTION/AVOIDANCE\nN/A\nPOSSIBLE COMPLICA...",
+      "technique": "trospective analysis of an implantable\nloop recorder for evaluation of syncope,\ncollapse, or intermi...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_026": {
+    "status": "success",
+    "name": "Endotracheal intubation",
+    "rag_count": 20,
+    "filled_sections": 6,
+    "sections": {
+      "indications": "39–42.\n37 Corleta O, Habazettl H, Kreimeier U, et al. Modified retrograde orotracheal intuba-\ntion t...",
+      "contraindications": null,
+      "equipment": "ty with normal patient anatomy. However, there are circumstances \nand situations resulting from anat...",
+      "patient_preparation": "–783.\n32 Stephens Devalle JM. Successful management of rabbit anesthesia through the use \nof nasotra...",
+      "technique": "ination on animals that have been fasted, because the airway is not always protected during the\nexam...",
+      "procedure_steps": null,
+      "aftercare": "RIs decrease MAC and provide analgesia where appropriate. \nThese animals may require MV. Recovery ta...",
+      "complications": "oduced by general anes-\nthesia is associated with depression of other physiologic \nsystems, such as ..."
+    },
+    "db_updated": true
+  },
+  "proc_027": {
+    "status": "success",
+    "name": "Excretory urography",
+    "rag_count": 18,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "ntesis is performed \nsome minutes after administration and \nthe fluid examined visually for the pres...",
+      "contraindications": "d, an\nexcretory urogram could be performed. On survey abdominal radiographs, the renal silhouette ma...",
+      "equipment": "Contrast media–induced renal failure\nThe administration of iodinated contrast media may affect urine...",
+      "patient_preparation": null,
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "1 HistOrically, \nexcretory urography, positive contrast \ncystography and urethrography have \nbeen us..."
+    },
+    "db_updated": true
+  },
+  "proc_028": {
+    "status": "success",
+    "name": "Fine needle aspiration",
+    "rag_count": 20,
+    "filled_sections": 4,
+    "sections": {
+      "indications": null,
+      "contraindications": null,
+      "equipment": "in this case a fine needle \naspirate was opted for initially as the procedure was the \nleast invasiv...",
+      "patient_preparation": "perficial structures.\n± Biopsy guide: easiest method, but angle of needle insertion is fixed.\nSedati...",
+      "technique": "to the \nsite being sampled and the ability to obtain the sample without \nputting the bird under gene...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "ings and the presence of the owner can provide reassurance, especially for cats.\nThere is no require..."
+    },
+    "db_updated": true
+  },
+  "proc_029": {
+    "status": "success",
+    "name": "Gastric lavage",
+    "rag_count": 13,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "osure) warrants bathing with warm water and a mild dishwashing\ndetergent. Care should be taken to pr...",
+      "contraindications": ", consistency, time since ingestion, and\nanimal status will influence whether gastric lavage is appr...",
+      "equipment": "terinary staff.\nInability to effectively remove gastric contents through lavage may be related to ex...",
+      "patient_preparation": "stric lavage, all of the above, plus:\nFunnel or stomach pump\nContainer (e.g., bucket) to collect sto...",
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_030": {
+    "status": "success",
+    "name": "Gastrostomy tube placement – percutaneous endoscopic",
+    "rag_count": 16,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "VI. Clogging of the tube.\n4. Gastrostomy tubes (G-tubes)\nA. Indications include:\n I. Inappetance and...",
+      "contraindications": "es \ninclude direct gastric delivery of nutrients and prevention of tube \neversion if emesis is encou...",
+      "equipment": "strostomy. J Am Vet Med Assoc. 1994;205:574–579.\n13. Bright RM, Burrows CF. Percutaneous endoscopic ...",
+      "patient_preparation": null,
+      "technique": "nelius LM, Bartges JW, et al. Complications with non-endoscopic percutaneous\ngastrostomy in 31 cats ...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "xiting the abdominal wall. E, The catheter is advanced until the mushroom tip\nrests gently against t..."
+    },
+    "db_updated": true
+  },
+  "proc_031": {
+    "status": "success",
+    "name": "Intraosseous cannula placement",
+    "rag_count": 17,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "access to the peripheral \ncirculation. Placement of an intraosseous cannula can be \ncompleted in min...",
+      "contraindications": "ther fat or cortical bone emboli after IO infusions in\nveterinary medicine.\nThere are few absolute c...",
+      "equipment": "sidered to be minimal in light of the size and length of \nthe cannulas used.\nCONCLUSIONS\nFurther inv...",
+      "patient_preparation": null,
+      "technique": "rials can be useful for protecting the part of the needle that protrudes from the femur.\nThe T-port ...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_032": {
+    "status": "success",
+    "name": "Intravenous catheter placement",
+    "rag_count": 20,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "The intravenous catheter is the direct line from veterinary paraprofessional to the patient. \nIt all...",
+      "contraindications": "e catheter. Generally, a light wrap will be sufficient to \nprevent most cats from attempting to remo...",
+      "equipment": "html/bc/ch003s001_s009_s004.php...\n3 de 3\n30-09-2011 23:25\n\nIntravenous Catheter Placement\nSYNONYM\nP...",
+      "patient_preparation": null,
+      "technique": "l cannot be visualized. Specifically, animals with tough skin or\nthat are dehydrated may require a s...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "s seen at the level of the pulmonic valve (arrow). Marked poststenotic dilatation of the pulmonary\nt..."
+    },
+    "db_updated": true
+  },
+  "proc_033": {
+    "status": "success",
+    "name": "Intravenous urography",
+    "rag_count": 20,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "ntesis is performed \nsome minutes after administration and \nthe fluid examined visually for the pres...",
+      "contraindications": null,
+      "equipment": "he\nfluid are diagnostic when compared to serum levels.\nAsepsis (urethral and peritoneal drainage cat...",
+      "patient_preparation": "ontrast radiography may assist in the identification of urinary tract \nobstruction or rupture. For e...",
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "struction\nr Urolithiasis, Struvite—Cats\nr Urolithiasis, Struvite—Dogs\nABBREVIATIONS\nr IVU = intraven..."
+    },
+    "db_updated": true
+  },
+  "proc_034": {
+    "status": "success",
+    "name": "Iodinated contrast media",
+    "rag_count": 15,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "viscous contrast solution through catheter.\nA 12-hour fast if sedating animal\nPlacement of IV cathet...",
+      "contraindications": "RATION: IMPORTANT CHECKPOINTS\nSurvey films of thorax and cervical region:\nIf contraindications are p...",
+      "equipment": "iodinated contrast medium (a nonionic medium should be used)\nCaution should be used in animals with ...",
+      "patient_preparation": null,
+      "technique": "can be achieved depending on the case. \nFor radiographic gastrointestinal contrast studies, iohexol ...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "ted by Simon T. Kudnig, Bernard Séguin.\n© 2012 by John Wiley & Sons, Ltd. Published 2012 by John Wil..."
+    },
+    "db_updated": true
+  },
+  "proc_035": {
+    "status": "success",
+    "name": "Myringotomy",
+    "rag_count": 16,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "t of these diseases.17,18\nMyringotomy is a simple and safe procedure that can be performed during a ...",
+      "contraindications": null,
+      "equipment": "my, and biopsy procedures require general anesthesia and endotracheal intubation to prevent\nlower re...",
+      "patient_preparation": "s014_s003.php...\n1 de 4\n30-09-2011 23:29\n\nOTOSCOPY (VIDEO) Otoscopic view of a normal ear canal and ...",
+      "technique": "l mass arising from the middle ear and extending into the\ntympanic bulla. A large portion of the tym...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "ccumulation in the middle ear. \nE-FIGURE 85-11\n Intraoperative view of a laser myringotomy being per..."
+    },
+    "db_updated": true
+  },
+  "proc_036": {
+    "status": "success",
+    "name": "Nasal oxygen administration",
+    "rag_count": 17,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "e the animal's mouth and pharynx for any material that was flushed out of the nose but\nnot trapped i...",
+      "contraindications": "be observed closely to ensure adequate\nventilation and oxygenation. If a patient appears to\nbe dsypn...",
+      "equipment": "ods are also available.\nF. Most patients will tolerate hood oxygenation, especially if the collar \ni...",
+      "patient_preparation": "inspired O2 content, anticipated duration of\ntherapy, equipment available and its size, and conforma...",
+      "technique": "supplied rapidly by attaching a facemask to an oxygen line and providing a high ﬂow rate\nof oxygen d...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_037": {
+    "status": "success",
+    "name": "Naso-oesophageal tube placement",
+    "rag_count": 18,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "Animal Medicine for Veterinary Technicians\nfrequent repeated intubation an indwelling nasogastric \nt...",
+      "contraindications": "k. \n\n273\n \nCHAPTER 18 Nutritional Management of Diseases\nNASOESOPHAGEAL FEEDING TUBE\nNasoesophageal ...",
+      "equipment": "ents with a\nfunctional esophagus, stomach, and intestines. Nasoesophageal tubes\nare contraindicated ...",
+      "patient_preparation": "www.clinicalvetadvisor2.com/html/bc/ch003s001_s007_s001.php...\n2 de 4\n30-09-2011 23:23\n\nPROCEDURE\nMa...",
+      "technique": "dog and cat. J Am Anim\nHosp Assoc 22:675-682, 1986.)\nIf the tube does not pass with relative ease in...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_038": {
+    "status": "success",
+    "name": "Neurological examination",
+    "rag_count": 16,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "th a nervous system lesion is to establish the\nanatomic location of that lesion. The anatomic diagno...",
+      "contraindications": "phs and\nadvanced imaging (MRI or CT).\nINDICATIONS\nAnimals with clinical signs and neurologic examina...",
+      "equipment": null,
+      "patient_preparation": "like to perform a quick neurological exam before the pet receives any medication. This \nis because t...",
+      "technique": "presented in Chapter 13. \nNervous system \nIn routine veterinary practice, veterinarians \nwill common...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "s of the autonomic \nnervous system 583 \nSPECIAL EXAMINATION OF THE \nNERVOUS SYSTEM 583 \nThe neurolog..."
+    },
+    "db_updated": true
+  },
+  "proc_039": {
+    "status": "success",
+    "name": "Oesophagostomy tube placement",
+    "rag_count": 14,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "VI. Clogging of the tube.\n4. Gastrostomy tubes (G-tubes)\nA. Indications include:\n I. Inappetance and...",
+      "contraindications": "es \ninclude direct gastric delivery of nutrients and prevention of tube \neversion if emesis is encou...",
+      "equipment": "he cardia.\n IX. The position of the tube can be confirmed radiographically.\n \nX. Suture the feeding ...",
+      "patient_preparation": "www.clinicalvetadvisor2.com/html/bc/ch003s001_s007_s001.php...\n2 de 4\n30-09-2011 23:23\n\nPROCEDURE\nMa...",
+      "technique": "Cervical esophagostomy in dogs. Endoscopic, radiographic\nand histopathologic evaluation of esophagit...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_040": {
+    "status": "success",
+    "name": "Ophthalmic examination",
+    "rag_count": 17,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "work\n• Complete blood count\n• Fibrinogen \n• Ultrasound/Radiology\n• Can be used to evaluate the orbit...",
+      "contraindications": "epithelioma\nIridociliary cysts\nFeline primary ocular sarcoma (post-\ntraumatic sarcoma)\nIridal spindl...",
+      "equipment": "ir eyesight to \ninterpret hand signals when working in the field.\nAn ophthalmic examination includes...",
+      "patient_preparation": "for the desired effect before redosing. The ophthalmic solution \ntastes very bitter and can cause hy...",
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_041": {
+    "status": "success",
+    "name": "Orthopaedic examination",
+    "rag_count": 19,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "el K: Otic flushing. Vet Clin North Am Small Anim Pract 34(2):555–65, 2004.\nAUTHORS: KINGA GORTEL, M...",
+      "contraindications": null,
+      "equipment": null,
+      "patient_preparation": "a detailed\northopedic evaluation.\nEQUIPMENT, ANESTHESIA\nSpecialized equipment is usually not require...",
+      "technique": "s \nmakes clinical management difficult and \noften unrewarding. \nREFERENCES \n1 . Ley SJ et a1.Vet Rec...",
+      "procedure_steps": null,
+      "aftercare": ", infections, cracked hooves, thrush\n• Visual inspection\n• Use strong lighting, Wood’s lamp\n• Skin s...",
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_042": {
+    "status": "success",
+    "name": "Ortolani test",
+    "rag_count": 20,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "el K: Otic flushing. Vet Clin North Am Small Anim Pract 34(2):555–65, 2004.\nAUTHORS: KINGA GORTEL, M...",
+      "contraindications": null,
+      "equipment": "olsworth IG, Hornof WJ: Selfretaining braces for canine arthroscopy. Vet Surg 33:77, 2004\nAUTHOR: IA...",
+      "patient_preparation": "stic meatus; 21, vestibulocochlear nerve in internal acoustic meatus; 22, meninges;\n23, brain; 24, p...",
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": "ral procedures extending \ncaudally to the second premolar teeth (Schwarz \net al. 1991a). The majorit...",
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_043": {
+    "status": "success",
+    "name": "Otoscopy",
+    "rag_count": 20,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "en is often an adjunctive\ntherapy, and treatment directed toward the underlying disease process is p...",
+      "contraindications": null,
+      "equipment": "my, and biopsy procedures require general anesthesia and endotracheal intubation to prevent\nlower re...",
+      "patient_preparation": "s014_s003.php...\n1 de 4\n30-09-2011 23:29\n\nOTOSCOPY (VIDEO) Otoscopic view of a normal ear canal and ...",
+      "technique": "y be difficult for the novice technician; only \nthrough frequent practice will the technique of otos...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_044": {
+    "status": "success",
+    "name": "Pericardiocentesis",
+    "rag_count": 14,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "A, Labato MA, Ross LA, et al: Peritoneal dialysis: a tool in veterinary critical care. J Vet Emerg C...",
+      "contraindications": "d \npericardiocentesis. \n Precautions/Interactions \n ■ Pericardiocentesis is not without risk. Injury...",
+      "equipment": "Fig. 13.12. Pericardiocentesis.\nComplications\nVentricular dysrhythmias, including VPCs, ventricular ...",
+      "patient_preparation": "dividuals with competence in this technique\nis strongly advised. Repeated\npericardiocentesis may be ...",
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "chromic) super -\nnatant (161b, left). As pericardial fluid is removed, the patient’s\nECG complex amp..."
+    },
+    "db_updated": true
+  },
+  "proc_045": {
+    "status": "success",
+    "name": "Platelet count",
+    "rag_count": 18,
+    "filled_sections": 6,
+    "sections": {
+      "indications": "thrombocytopenia; dogs and cats should have 10–15 platelets per 100× oil immersion \nfield; spontaneo...",
+      "contraindications": "retation: Healthy dogs have platelet counts of \n150–500 = 109/l and healthy cats 180–550 = 109/l. \nP...",
+      "equipment": "c agents, estrogens, phenylbutazone, certain diuretics, certain antibiotics/antimicrobials\nLAB ARTIF...",
+      "patient_preparation": ") can also be\nassociated with mild to moderate thrombocytopenia.\nIn addition, in patients who are ac...",
+      "technique": "cat. J Vet Emerg Crit Care. 2014;24(3):326–331.\n24. Innerå M. Cutaneous vasculitis in small animals....",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "ulating platelet number may not be\nevident for up to 4 days.46\nAnesthetic concerns speciﬁcally relat..."
+    },
+    "db_updated": true
+  },
+  "proc_046": {
+    "status": "success",
+    "name": "Prostatic wash",
+    "rag_count": 19,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "s\n(blood, urine, semen, imaging) immediately.\nr Chronic prostatitis patients may be seen as\noutpatie...",
+      "contraindications": null,
+      "equipment": "rauma or allowing it to loop back on itself to form a knot.\nBladder infections will make the prostat...",
+      "patient_preparation": null,
+      "technique": "otic solution \nwill help decrease the edema. Subsequent applications may be necessary every few hour...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "ople: the veterinarian and two assistants.\nThe procedure requires both digital rectal palpation and ..."
+    },
+    "db_updated": true
+  },
+  "proc_047": {
+    "status": "success",
+    "name": "Resting energy requirement",
+    "rag_count": 20,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "nhibitors [omeprazole])\nAntinausea medications (metoclopramide, ondansetron, maropitant) unless cont...",
+      "contraindications": "s, and start to correct prior to instituting nutritional support.\nIdentify at-risk patients.\nUse cau...",
+      "equipment": "l to be able to calcu­\nlate RER for any dog or cat and then estimate MER using \nmultiplication facto...",
+      "patient_preparation": null,
+      "technique": "owner should\nprovide per day.\nTable 3.9. Resting energy requirements for dogs and cats.\nResting ener...",
+      "procedure_steps": null,
+      "aftercare": "ve. Energy requirements post-\ndischarge may also be increased above hospitalization RER due to \nincr...",
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_048": {
+    "status": "success",
+    "name": "Retrograde urethrography/vaginourethrography",
+    "rag_count": 17,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "que uroliths have been flushed into the\nbladder lumen.\nTransurethral catheterization is not a reliab...",
+      "contraindications": "rpreted carefully without bladder\ndistension.\nr Excretory urography may allow visualization\nof the k...",
+      "equipment": "nephrography allows visualization of the\nkidneys, ureteral terminations, and urinary\nbladder. r Retr...",
+      "patient_preparation": null,
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "ina-\ntion with organisms that normally inhabit the distal urethra. \n\n276 \nBLACKWELL’S FIVE-MINUTE VE..."
+    },
+    "db_updated": true
+  },
+  "proc_049": {
+    "status": "success",
+    "name": "Rhinoscopy",
+    "rag_count": 19,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "ced in the back of the pharynx and angled above the soft palate while a light source is\nused to visu...",
+      "contraindications": "Rhinoscopy\nRhinoscopy is an integral component of the diagnostic investigation of nasal disease, and...",
+      "equipment": "NG Animal undergoing transthoracic pacing while the neck is aseptically\nprepared for permanent trans...",
+      "patient_preparation": null,
+      "technique": "bout 160° so that it reaches behind edge of soft palate.\nExamine choanae.\nPull body of endoscope gen...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "Rhinoscopy and biopsy\n(a) Hemorrhage: The nasal passage is well perfused and thus rhinoscopy may res..."
+    },
+    "db_updated": true
+  },
+  "proc_050": {
+    "status": "success",
+    "name": "Skin scrapes",
+    "rag_count": 20,
+    "filled_sections": 7,
+    "sections": {
+      "indications": "f the canine and feline ear: otoendoscopy. Clinical manual of small animal\nendosurgery. ed 1. Wiley-...",
+      "contraindications": "ot be held with paper towels, even if the towels \nare moistened. This rough surface can easily remov...",
+      "equipment": "n scrapings rule in a parasite, but \nnegative skin scrapings do not necessarily rule out these \npara...",
+      "patient_preparation": "g sedation and local anal-\ngesia (Elce & Richardson, 2002). Short skin incisions, multiple \nentries ...",
+      "technique": "ed sutures.\nSkin biopsies, along with a detailed history and animal description, should be submitted...",
+      "procedure_steps": null,
+      "aftercare": "contact irritant or acute allergic\ndisease—prevent contact with the offending\nagent. r Do not expose...",
+      "complications": "Biopsy jars containing 10% neutral buffered formalin\nhttp://www.clinicalvetadvisor2.com/html/bc/ch00..."
+    },
+    "db_updated": true
+  },
+  "proc_051": {
+    "status": "success",
+    "name": "Surgical examination of the ear",
+    "rag_count": 20,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "en is often an adjunctive\ntherapy, and treatment directed toward the underlying disease process is p...",
+      "contraindications": null,
+      "equipment": "med on awake patients; however, if the\npatient has a painful ear infection, the patient may need to ...",
+      "patient_preparation": "stic meatus; 21, vestibulocochlear nerve in internal acoustic meatus; 22, meninges;\n23, brain; 24, p...",
+      "technique": "ck and Thoracic \nSurgery. Gloucester: British Small Animal Veterinary Association, \npp. 56–72.\n\nSmal...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "edication or cleaning solution instilled in the ears for 12 hours prior to procedure.\nUse adequate r..."
+    },
+    "db_updated": true
+  },
+  "proc_052": {
+    "status": "success",
+    "name": "Thoracocentesis",
+    "rag_count": 14,
+    "filled_sections": 2,
+    "sections": {
+      "indications": null,
+      "contraindications": null,
+      "equipment": "ample.\nThoracocentesis\nIndications and Considerations\nAnalysis of pleural fluid obtained by thoracoc...",
+      "patient_preparation": null,
+      "technique": "attached to extension tubing, which is connected to a \nthree-way stopcock and 60 ml syringe (Figure ...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_053": {
+    "status": "success",
+    "name": "Tracheal wash – endotracheal",
+    "rag_count": 10,
+    "filled_sections": 2,
+    "sections": {
+      "indications": null,
+      "contraindications": null,
+      "equipment": "Transoral tracheal wash is appropriate for use in large and small dogs or in cats. A sterile\nendotra...",
+      "patient_preparation": null,
+      "technique": "umomediastinum with transtracheal approach\nBeing too hesitant (inadequate) in volume of saline insti...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_054": {
+    "status": "success",
+    "name": "Tracheal wash – transtracheal",
+    "rag_count": 11,
+    "filled_sections": 2,
+    "sections": {
+      "indications": null,
+      "contraindications": null,
+      "equipment": "Transoral tracheal wash is appropriate for use in large and small dogs or in cats. A sterile\nendotra...",
+      "patient_preparation": null,
+      "technique": "umomediastinum with transtracheal approach\nBeing too hesitant (inadequate) in volume of saline insti...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_055": {
+    "status": "success",
+    "name": "Tracheostomy tube placement",
+    "rag_count": 16,
+    "filled_sections": 6,
+    "sections": {
+      "indications": "39–42.\n37 Corleta O, Habazettl H, Kreimeier U, et al. Modified retrograde orotracheal intuba-\ntion t...",
+      "contraindications": "er oxygen to the patient at the rate of 0.2–0.5 L/min whilst \nperforming the tracheostomy. This will...",
+      "equipment": "ngs \nof the trachea avoiding the cartilage portion. This inci-\nsion allows the operator to insert th...",
+      "patient_preparation": "close tracheostomy site.\nTie a piece of umbilical tape to each wing of the tracheostomy tube, and ti...",
+      "technique": "-lumen, cuffed tracheostomy tube. Curved and cuffed portions are inside the patient. External plate\n...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "xtubation, and cuff leakage\nTube “cleaning” cannot involve pushing secretions and debris back into t..."
+    },
+    "db_updated": true
+  },
+  "proc_056": {
+    "status": "success",
+    "name": "Urethral catheterization – female dog",
+    "rag_count": 15,
+    "filled_sections": 2,
+    "sections": {
+      "indications": "ic regimen; monitor brachycephalic\nbreeds carefully during anesthesia to ensure\nmaintenance of adequ...",
+      "contraindications": null,
+      "equipment": "of\nprior urethral catheterization.\nEQUIPMENT, ANESTHESIA\nSterile polypropylene or red rubber-type ca...",
+      "patient_preparation": null,
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_057": {
+    "status": "success",
+    "name": "Urethral catheterization – female cat",
+    "rag_count": 15,
+    "filled_sections": 3,
+    "sections": {
+      "indications": "s best to wait to give antibiotics \nuntil the urinary catheter has been removed unless it is believe...",
+      "contraindications": null,
+      "equipment": "left-sided heart pressures, which CVP\ndoes not; however, this technique is much more technically dem...",
+      "patient_preparation": null,
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "erile, closed collection system):\nTypically for 24-72 hours in cats with crystalluria or FLUTS/D\nPhe..."
+    },
+    "db_updated": true
+  },
+  "proc_058": {
+    "status": "success",
+    "name": "Urethral catheterization – male dog",
+    "rag_count": 16,
+    "filled_sections": 3,
+    "sections": {
+      "indications": "ic regimen; monitor brachycephalic\nbreeds carefully during anesthesia to ensure\nmaintenance of adequ...",
+      "contraindications": null,
+      "equipment": "of\nprior urethral catheterization.\nEQUIPMENT, ANESTHESIA\nSterile polypropylene or red rubber-type ca...",
+      "patient_preparation": null,
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "ople: the veterinarian and two assistants.\nThe procedure requires both digital rectal palpation and ..."
+    },
+    "db_updated": true
+  },
+  "proc_059": {
+    "status": "success",
+    "name": "Urethral catheterization – male cat",
+    "rag_count": 16,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "s best to wait to give antibiotics \nuntil the urinary catheter has been removed unless it is believe...",
+      "contraindications": "detrusor contractility (∼1-5 days).\nPromote repair of urothelial urethral tear (∼3-10 days).\nCare an...",
+      "equipment": "left-sided heart pressures, which CVP\ndoes not; however, this technique is much more technically dem...",
+      "patient_preparation": null,
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": "erile, closed collection system):\nTypically for 24-72 hours in cats with crystalluria or FLUTS/D\nPhe..."
+    },
+    "db_updated": true
+  },
+  "proc_060": {
+    "status": "success",
+    "name": "Urinalysis",
+    "rag_count": 20,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "s JB. Biochemical analysis of urine: indications, methods, interpretation. Urinalysis: a\nclinical gu...",
+      "contraindications": null,
+      "equipment": "fety of a treatment, urinalysis helps in patient evaluation\n1. Urine testing is usually easily perfo...",
+      "patient_preparation": "e disease?)\n \nB. Blood urea nitrogen (liver disease?)\n \nC. Creatinine (dehydration? renal disease?)\n...",
+      "technique": "bdominal palpation. \nUsually at least a small stream of urine can easily (cautiously) be \nexpressed ...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_061": {
+    "status": "success",
+    "name": "Vaginoscopy",
+    "rag_count": 19,
+    "filled_sections": 2,
+    "sections": {
+      "indications": "caudal vagina—measure the diameter;\nidentify caudal strictures or masses; note the\nsize and conforma...",
+      "contraindications": null,
+      "equipment": "general\nanesthesia, depending on the medical reasons to perform the vaginoscopy.\nEquipment:\nEndoscop...",
+      "patient_preparation": null,
+      "technique": null,
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  },
+  "proc_062": {
+    "status": "success",
+    "name": "Venepuncture",
+    "rag_count": 19,
+    "filled_sections": 2,
+    "sections": {
+      "indications": null,
+      "contraindications": null,
+      "equipment": "h 70% alcohol (isopropyl)\nB. A 3- or 12-mL syringe or Vacutainer holder\nC. A 20- to 22-gauge needle\n...",
+      "patient_preparation": null,
+      "technique": "5°) through the \nepidermis and into the dermis.\n• Aspirate to ensure there is no \nblood in the hub o...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    },
+    "db_updated": true
+  }
+}

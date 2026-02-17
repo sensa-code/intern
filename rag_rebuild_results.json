@@ -1,0 +1,50 @@
+{
+  "proc_001": {
+    "status": "success",
+    "name": "Abdominocentesis",
+    "rag_count": 14,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "abdominocentesis\nIndication\nAnalysis of peritoneal fluid obtained by abdomino-\ncentesis is a useful ...",
+      "contraindications": "med \nin animals with distended viscera, care should be taken \nto avoid enterocentesis. The presence ...",
+      "equipment": "or Veterinary Technicians\nbacterial infection, splenic or hepatic torsion, urinary \ntract leakage, a...",
+      "patient_preparation": null,
+      "technique": "ic (lidocaine/mepivacaine)\nPatient Prep \nSeveral sites are available for performing abdomino-\ncentes...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    }
+  },
+  "proc_002": {
+    "status": "success",
+    "name": "ACTH response test",
+    "rag_count": 13,
+    "filled_sections": 4,
+    "sections": {
+      "indications": "eractions have either been reported or are theoretical in humans or animals receiving corticotropin ...",
+      "contraindications": "ests should not be performed on the same day.\n \nACTH stimulates the adrenal cortex (particularly the...",
+      "equipment": "ests support hyperadrenocorticism, and ACTH level is below\nthe normal range, a diagnosis of adrenal ...",
+      "patient_preparation": null,
+      "technique": "harmacies. Based on a recent\nstudy performed in normal dogs, it was\nrecommended determine serum cort...",
+      "procedure_steps": null,
+      "aftercare": null,
+      "complications": null
+    }
+  },
+  "proc_003": {
+    "status": "success",
+    "name": "Anaphylaxis – emergency treatment",
+    "rag_count": 16,
+    "filled_sections": 5,
+    "sections": {
+      "indications": "is pink, brown or contains a precipitate. It is unstable in 5% dextrose.\nContraindications: The use ...",
+      "contraindications": "■ Dogs can receive up to 20 ml/kg over a 2 - to 3 - hour period under emergent condi-\ntions, or 5 to...",
+      "equipment": null,
+      "patient_preparation": null,
+      "technique": "ort through the\nmaintenance of an open airway, preventing\ncirculatory collapse, and reestablishing\np...",
+      "procedure_steps": null,
+      "aftercare": "IVE DRUG(S)\nN/A\nFOLLOW-UP\nPATIENT MONITORING\nClosely monitor hospitalized patients for\n24–48 hours.\n...",
+      "complications": "servation if the substance \nappears to have been ingested. \n• \nCharacteristic signs as described abo..."
+    }
+  }
+}
