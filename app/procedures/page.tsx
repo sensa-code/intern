@@ -35,7 +35,7 @@ export default function ProceduresPage() {
       <div className="mb-8">
         <h1 className="text-3xl sm:text-4xl font-bold mb-2">臨床程序資料庫</h1>
         <p className="text-muted-foreground">
-          涵蓋 62 個 BSAVA 臨床程序，支援 A-Z 分類瀏覽與關鍵字搜尋
+          涵蓋 343 個犬貓臨床程序，支援中英文搜尋與 A-Z 分類瀏覽
         </p>
       </div>
 
@@ -43,7 +43,7 @@ export default function ProceduresPage() {
         <div className="relative max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="搜尋程序名稱..."
+            placeholder="搜尋程序名稱（中文或英文）..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             className="pl-10"

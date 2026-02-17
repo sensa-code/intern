@@ -33,7 +33,7 @@ async function getStats() {
       categoryCount: uniqueCategories.size,
     };
   } catch {
-    return { procedureCount: 62, categoryCount: 26 };
+    return { procedureCount: 343, categoryCount: 26 };
   }
 }
 
@@ -111,7 +111,7 @@ export default async function Home() {
             </div>
             <h3 className="font-semibold mb-2">完整程序資料庫</h3>
             <p className="text-sm text-gray-600">
-              收錄 BSAVA 手冊中的 {stats.procedureCount} 個臨床程序，
+              收錄 {stats.procedureCount} 個犬貓臨床程序，
               包含適應症、禁忌症、設備、步驟等完整資訊。
             </p>
           </div>

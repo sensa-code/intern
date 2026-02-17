@@ -6,6 +6,7 @@ export interface Procedure {
   id: string;
   procedure_id: string;
   name: string;
+  name_zh: string | null;
   category: string;
   page_number: number;
 

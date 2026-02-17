@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (search) {
-      query = query.ilike('name', `%${search}%`);
+      query = query.or(`name.ilike.%${search}%,name_zh.ilike.%${search}%`);
     }
 
     const { data, error } = await query;

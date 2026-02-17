@@ -12,6 +12,7 @@ import { LanguageToggle } from '@/components/procedures/LanguageToggle';
 import { cleanOcrText } from '@/lib/text-cleaning';
 import { getProcedureQuality, isContentSafeToShow } from '@/lib/data-quality';
 import type { Procedure, ProcedureContentField, ProcedureSection, ContentLocale } from '@/lib/types';
+import { getPrimaryName } from '@/lib/utils/display-name';
 
 /** 內容區塊設定，依顯示順序 */
 const SECTION_CONFIG: { key: ProcedureContentField; label: string }[] = [
@@ -189,7 +190,7 @@ export default function ProcedureDetailPage() {
           </li>
           <li>/</li>
           <li className="text-foreground font-medium truncate max-w-[200px]">
-            {procedure.name}
+            {getPrimaryName(procedure)}
           </li>
         </ol>
       </nav>
@@ -219,7 +220,10 @@ export default function ProcedureDetailPage() {
             <LanguageToggle locale={locale} onLocaleChange={setLocale} />
           </div>
         </div>
-        <h1 className="text-3xl font-bold">{procedure.name}</h1>
+        <h1 className="text-3xl font-bold">{getPrimaryName(procedure)}</h1>
+        {procedure.name_zh && (
+          <p className="text-lg text-muted-foreground mt-1">{procedure.name}</p>
+        )}
       </div>
 
       {/* RAG 來源提示 */}

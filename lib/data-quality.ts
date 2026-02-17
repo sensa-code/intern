@@ -1,13 +1,14 @@
 /**
  * 資料品質評估模組 — 標記每個程序的內容來源與驗證狀態
  *
- * 2026-02-15 更新：全部 62 筆程序已從 RAG 資料庫重建內容。
- * 內容來源為 183,628 個獸醫教科書文字區塊的語義搜尋結果，
- * 經啟發式分類後填入 indications、equipment、technique 等欄位。
+ * 2026-02-17 更新：資料庫擴充至 343 筆程序。
+ * - proc_001~062：62 筆原始 BSAVA 程序，已從 RAG 重建內容（needs_review）
+ * - proc_063~343：281 筆新增臨床訓練程序，內容欄位尚未填充（empty）
  *
  * 狀態說明：
  * - VERIFIED: 內容來自 RAG 且語義匹配度高（>0.6），可完整顯示
  * - NEEDS_REVIEW: 內容來自 RAG 但匹配度較低或區塊較少，顯示並加提示
+ * - EMPTY: 程序已建立但內容尚未填充，後續可透過 RAG 填充
  */
 
 export type DataQualityStatus = 'verified' | 'needs_review' | 'corrupted' | 'empty';
@@ -91,14 +92,23 @@ const QUALITY_MAP: Record<string, ProcedureQuality> = {
   proc_060: { status: 'needs_review', source: 'RAG' },
   proc_061: { status: 'needs_review', source: 'RAG' },
   proc_062: { status: 'needs_review', source: 'RAG' },
+
+  // proc_063~343: 281 筆新增臨床訓練程序（尚無內容）
+  ...Object.fromEntries(
+    Array.from({ length: 281 }, (_, i) => {
+      const id = `proc_${String(i + 63).padStart(3, '0')}`;
+      return [id, { status: 'empty' as const, source: 'gap_analysis' }];
+    })
+  ),
 };
 
 /**
  * 取得程序的資料品質狀態
- * 預設為 needs_review（所有程序都已有 RAG 內容）
+ * 已知的 proc_001~062 回傳 needs_review（有 RAG 內容）
+ * 其餘回傳 empty（尚無內容）
  */
 export function getProcedureQuality(procedureId: string): ProcedureQuality {
-  return QUALITY_MAP[procedureId] ?? { status: 'needs_review', source: 'RAG' };
+  return QUALITY_MAP[procedureId] ?? { status: 'empty', source: 'gap_analysis' };
 }
 
 /**

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Clock, CheckCircle2, Circle, PlayCircle } from 'lucide-react';
 import type { Procedure, ProcedureProgress } from '@/lib/types';
+import { getPrimaryName, getSecondaryName } from '@/lib/utils/display-name';
 
 interface ProcedureCardProps {
   procedure: Procedure;
@@ -76,8 +77,13 @@ export function ProcedureCard({
                 )}
               </div>
               <CardTitle className="text-lg leading-tight group-hover:text-blue-600 transition-colors">
-                {procedure.name}
+                {getPrimaryName(procedure)}
               </CardTitle>
+              {getSecondaryName(procedure) && (
+                <p className="text-sm text-muted-foreground mt-0.5">
+                  {getSecondaryName(procedure)}
+                </p>
+              )}
             </div>
             <div className="ml-2">
               {getStatusIcon()}
