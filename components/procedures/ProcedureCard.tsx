@@ -90,7 +90,7 @@ export function ProcedureCard({
             </div>
           </div>
 
-          {procedure.page_number && (
+          {procedure.page_number != null && procedure.page_number > 0 && (
             <CardDescription className="text-sm">
               第 {procedure.page_number} 頁
             </CardDescription>
