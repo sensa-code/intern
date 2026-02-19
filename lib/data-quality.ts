@@ -1,14 +1,14 @@
 /**
  * 資料品質評估模組 — 標記每個程序的內容來源與驗證狀態
  *
- * 2026-02-17 更新：資料庫擴充至 343 筆程序。
+ * 2026-02-19 更新：AI 生成 281 筆程序臨床教學內容（EN+ZH 雙語）
  * - proc_001~062：62 筆原始 BSAVA 程序，已從 RAG 重建內容（needs_review）
- * - proc_063~343：281 筆新增臨床訓練程序，內容欄位尚未填充（empty）
+ * - proc_063~343：281 筆新增臨床訓練程序，AI 生成內容（needs_review）
  *
  * 狀態說明：
- * - VERIFIED: 內容來自 RAG 且語義匹配度高（>0.6），可完整顯示
- * - NEEDS_REVIEW: 內容來自 RAG 但匹配度較低或區塊較少，顯示並加提示
- * - EMPTY: 程序已建立但內容尚未填充，後續可透過 RAG 填充
+ * - VERIFIED: 內容已人工審核確認正確
+ * - NEEDS_REVIEW: 內容來自 RAG 或 AI 生成，尚未人工驗證，顯示並加提示
+ * - EMPTY: 程序已建立但內容尚未填充
  */
 
 export type DataQualityStatus = 'verified' | 'needs_review' | 'corrupted' | 'empty';
@@ -93,19 +93,19 @@ const QUALITY_MAP: Record<string, ProcedureQuality> = {
   proc_061: { status: 'needs_review', source: 'RAG' },
   proc_062: { status: 'needs_review', source: 'RAG' },
 
-  // proc_063~343: 281 筆新增臨床訓練程序（尚無內容）
+  // proc_063~343: 281 筆新增臨床訓練程序（AI 生成內容）
   ...Object.fromEntries(
     Array.from({ length: 281 }, (_, i) => {
       const id = `proc_${String(i + 63).padStart(3, '0')}`;
-      return [id, { status: 'empty' as const, source: 'gap_analysis' }];
+      return [id, { status: 'needs_review' as const, source: 'AI_generated' }];
     })
   ),
 };
 
 /**
  * 取得程序的資料品質狀態
- * 已知的 proc_001~062 回傳 needs_review（有 RAG 內容）
- * 其餘回傳 empty（尚無內容）
+ * proc_001~062: needs_review（RAG 重建內容）
+ * proc_063~343: needs_review（AI 生成內容）
  */
 export function getProcedureQuality(procedureId: string): ProcedureQuality {
   return QUALITY_MAP[procedureId] ?? { status: 'empty', source: 'gap_analysis' };
@@ -113,7 +113,7 @@ export function getProcedureQuality(procedureId: string): ProcedureQuality {
 
 /**
  * 內容是否可以安全顯示
- * 2026-02-15: 所有程序都已從 RAG 重建，全部可顯示
+ * 2026-02-19: 所有 343 筆程序都有內容（RAG 或 AI 生成），全部可顯示
  */
 export function isContentSafeToShow(procedureId: string): boolean {
   const quality = getProcedureQuality(procedureId);
