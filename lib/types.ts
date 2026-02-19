@@ -167,6 +167,15 @@ export interface ProcedureFilters {
   difficulty?: number[];
   status?: string[];
   tags?: string[];
+  page?: number;
+  pageSize?: number;
+}
+
+export interface PaginationInfo {
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
 }
 
 export interface ProgressStats {

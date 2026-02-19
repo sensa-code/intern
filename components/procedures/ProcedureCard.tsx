@@ -4,100 +4,39 @@ import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Clock, CheckCircle2, Circle, PlayCircle } from 'lucide-react';
-import type { Procedure, ProcedureProgress } from '@/lib/types';
+import { Clock } from 'lucide-react';
+import type { Procedure } from '@/lib/types';
 import { getPrimaryName, getSecondaryName } from '@/lib/utils/display-name';
-import { getDepartmentById } from '@/lib/constants/departments';
+import { getDepartmentById, translateTag } from '@/lib/constants/departments';
 
-interface ProcedureCardProps {
-  procedure: Procedure;
-  progress?: ProcedureProgress | null;
-  showProgress?: boolean;
-}
-
-const STATUS_LABELS: Record<string, string> = {
-  completed: '已完成',
-  mastered: '已精通',
-  in_progress: '學習中',
-  not_started: '未開始',
-};
-
-export function ProcedureCard({
-  procedure,
-  progress,
-  showProgress = false,
-}: ProcedureCardProps) {
-  const getStatusIcon = () => {
-    if (!progress) return <Circle className="h-4 w-4 text-gray-400" />;
-
-    switch (progress.status) {
-      case 'completed':
-      case 'mastered':
-        return <CheckCircle2 className="h-4 w-4 text-green-500" />;
-      case 'in_progress':
-        return <PlayCircle className="h-4 w-4 text-blue-500" />;
-      default:
-        return <Circle className="h-4 w-4 text-gray-400" />;
-    }
-  };
-
-  const getStatusColor = (): "default" | "secondary" | "outline" | "destructive" => {
-    if (!progress) return 'default';
-
-    switch (progress.status) {
-      case 'completed':
-      case 'mastered':
-        return 'default';
-      case 'in_progress':
-        return 'secondary';
-      default:
-        return 'outline';
-    }
-  };
-
-  const getProficiencyLevel = () => {
-    if (!progress || !progress.proficiency_level) return 0;
-    return (progress.proficiency_level / 5) * 100;
-  };
-
+export function ProcedureCard({ procedure }: { procedure: Procedure }) {
   return (
     <Link href={`/procedures/${procedure.id}`} className="block group">
       <Card className="hover:shadow-lg transition-shadow h-full">
         <CardHeader>
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2 flex-wrap">
-                {(() => {
-                  const dept = getDepartmentById(procedure.department);
-                  return dept ? (
-                    <Badge variant="outline" className={`text-xs ${dept.colorClasses.badge}`}>
-                      {dept.name_zh}
-                    </Badge>
-                  ) : (
-                    <Badge variant="outline" className="font-mono">
-                      {procedure.category}
-                    </Badge>
-                  );
-                })()}
-                {showProgress && (
-                  <Badge variant={getStatusColor()}>
-                    {STATUS_LABELS[progress?.status || 'not_started'] || '未開始'}
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              {(() => {
+                const dept = getDepartmentById(procedure.department);
+                return dept ? (
+                  <Badge variant="outline" className={`text-xs ${dept.colorClasses.badge}`}>
+                    {dept.name_zh}
                   </Badge>
-                )}
-              </div>
-              <CardTitle className="text-lg leading-tight group-hover:text-blue-600 transition-colors">
-                {getPrimaryName(procedure)}
-              </CardTitle>
-              {getSecondaryName(procedure) && (
-                <p className="text-sm text-muted-foreground mt-0.5">
-                  {getSecondaryName(procedure)}
-                </p>
-              )}
+                ) : (
+                  <Badge variant="outline" className="font-mono">
+                    {procedure.category}
+                  </Badge>
+                );
+              })()}
             </div>
-            <div className="ml-2">
-              {getStatusIcon()}
-            </div>
+            <CardTitle className="text-lg leading-tight group-hover:text-blue-600 transition-colors">
+              {getPrimaryName(procedure)}
+            </CardTitle>
+            {getSecondaryName(procedure) && (
+              <p className="text-sm text-muted-foreground mt-0.5">
+                {getSecondaryName(procedure)}
+              </p>
+            )}
           </div>
 
           {procedure.page_number != null && procedure.page_number > 0 && (
@@ -136,30 +75,12 @@ export function ProcedureCard({
               )}
             </div>
 
-            {/* 進度條 */}
-            {showProgress && progress && (
-              <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span>熟練度</span>
-                  <span>{progress.proficiency_level}/5</span>
-                </div>
-                <Progress value={getProficiencyLevel()} className="h-2" />
-              </div>
-            )}
-
-            {/* 練習次數 */}
-            {showProgress && progress && progress.practice_count > 0 && (
-              <div className="text-xs text-muted-foreground">
-                已練習 {progress.practice_count} 次
-              </div>
-            )}
-
             {/* 標籤 */}
             {procedure.tags && procedure.tags.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {procedure.tags.slice(0, 3).map((tag, index) => (
                   <Badge key={index} variant="outline" className="text-xs">
-                    {tag}
+                    {translateTag(tag)}
                   </Badge>
                 ))}
                 {procedure.tags.length > 3 && (

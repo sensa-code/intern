@@ -30,7 +30,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/training" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
-                  訓練計劃
+                  學習進度
                 </Link>
               </li>
             </ul>

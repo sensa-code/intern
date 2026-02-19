@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 
 const NAV_ITEMS = [
   { href: '/procedures', label: '程序資料庫' },
-  { href: '/training', label: '訓練計劃' },
+  { href: '/training', label: '學習進度' },
 ] as const;
 
 export function Navbar() {

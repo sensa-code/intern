@@ -7,14 +7,15 @@ import { useState, useEffect, useRef } from 'react';
 import {
   Siren, Scissors, Bone, Stethoscope, Wind, ScanLine,
   Heart, Brain, Eye, Palette, Microscope, ClipboardList,
-  BookOpen, Search, LayoutGrid,
+  BookOpen, Search, LayoutGrid, X,
+  ChevronLeft, ChevronRight,
 } from 'lucide-react';
 import { ProcedureCard, ProcedureCardSkeleton } from '@/components/procedures/ProcedureCard';
 import { useProcedures } from '@/lib/hooks/useProcedures';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { DEPARTMENTS, type Department } from '@/lib/constants/departments';
+import { DEPARTMENTS } from '@/lib/constants/departments';
 
 /** lucide icon 名稱 → 元件映射 */
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -31,6 +32,33 @@ export default function ProceduresPage() {
   const [department, setDepartment] = useState<string | undefined>();
   const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 30;
+
+  // 科別滾動容器 ref（用於漸層提示）
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [showLeftGradient, setShowLeftGradient] = useState(false);
+  const [showRightGradient, setShowRightGradient] = useState(false);
+
+  // 偵測科別滾動位置，顯示/隱藏漸層提示
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    function updateGradients() {
+      if (!el) return;
+      setShowLeftGradient(el.scrollLeft > 8);
+      setShowRightGradient(el.scrollLeft < el.scrollWidth - el.clientWidth - 8);
+    }
+
+    updateGradients();
+    el.addEventListener('scroll', updateGradients, { passive: true });
+    window.addEventListener('resize', updateGradients);
+    return () => {
+      el.removeEventListener('scroll', updateGradients);
+      window.removeEventListener('resize', updateGradients);
+    };
+  }, []);
 
   // 300ms debounce：避免每次按鍵都觸發查詢
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -43,7 +71,32 @@ export default function ProceduresPage() {
     };
   }, [searchInput]);
 
-  const { procedures, loading, error } = useProcedures({ department, search });
+  const { procedures, pagination, loading, error } = useProcedures({
+    department,
+    search,
+    page,
+    pageSize: PAGE_SIZE,
+  });
+
+  // 切換科別或搜尋時重置頁碼
+  useEffect(() => {
+    setPage(1);
+  }, [department, search]);
+
+  // 搜尋時結果為零且有科別篩選 → 顯示引導
+  const hasSearchAndDept = Boolean(search) && Boolean(department);
+  const isEmptyWithFilter = !loading && !error && procedures.length === 0 && hasSearchAndDept;
+
+  /** 清除搜尋文字 */
+  function clearSearch() {
+    setSearchInput('');
+    setSearch('');
+  }
+
+  /** 切換至全部科別（搜尋結果為空時引導用） */
+  function switchToAll() {
+    setDepartment(undefined);
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -62,14 +115,33 @@ export default function ProceduresPage() {
             placeholder="搜尋程序名稱（中文或英文）..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            className="pl-10"
+            className="pl-10 pr-10"
           />
+          {/* × 清除按鈕 */}
+          {searchInput && (
+            <button
+              onClick={clearSearch}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="清除搜尋"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
         </div>
       </div>
 
-      {/* 專科分類按鈕 */}
-      <div className="mb-6">
-        <div className="flex gap-2 overflow-x-auto pb-3 scrollbar-thin">
+      {/* 專科分類按鈕（含漸層滾動提示） */}
+      <div className="mb-6 relative">
+        {/* 左側漸層 */}
+        {showLeftGradient && (
+          <div className="absolute left-0 top-0 bottom-3 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+        )}
+        {/* 右側漸層 */}
+        {showRightGradient && (
+          <div className="absolute right-0 top-0 bottom-3 w-8 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+        )}
+
+        <div ref={scrollRef} className="flex gap-2 overflow-x-auto pb-3 scrollbar-thin">
           {/* 全部 */}
           <Button
             variant={!department ? 'default' : 'outline'}
@@ -106,9 +178,11 @@ export default function ProceduresPage() {
             </Badge>
           )}
           <p className="text-sm text-muted-foreground">
-            {procedures.length > 0
-              ? `共 ${procedures.length} 個程序`
-              : null}
+            {pagination && pagination.totalCount > 0
+              ? `共 ${pagination.totalCount} 個程序`
+              : procedures.length > 0
+                ? `共 ${procedures.length} 個程序`
+                : null}
           </p>
         </div>
       )}
@@ -128,22 +202,67 @@ export default function ProceduresPage() {
           <div className="col-span-full text-center py-12">
             <BookOpen className="mx-auto h-12 w-12 text-muted-foreground/30 mb-4" />
             <p className="text-lg text-muted-foreground mb-2">沒有找到符合條件的程序</p>
-            <p className="text-sm text-muted-foreground">
-              {search
-                ? `找不到包含「${search}」的程序，請嘗試其他關鍵字`
-                : '此分類下沒有程序'}
-            </p>
+            {isEmptyWithFilter ? (
+              <>
+                <p className="text-sm text-muted-foreground mb-4">
+                  在「{DEPARTMENTS.find(d => d.id === department)?.name_zh}」中找不到「{search}」。
+                  試試在全部科別中搜尋？
+                </p>
+                <div className="flex gap-2 justify-center">
+                  <Button variant="outline" size="sm" onClick={switchToAll}>
+                    搜尋全部科別
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={clearSearch}>
+                    清除搜尋
+                  </Button>
+                </div>
+              </>
+            ) : search ? (
+              <p className="text-sm text-muted-foreground">
+                找不到包含「{search}」的程序，請嘗試其他關鍵字
+              </p>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                此分類下沒有程序
+              </p>
+            )}
           </div>
         ) : (
           procedures.map(procedure => (
             <ProcedureCard
               key={procedure.id}
               procedure={procedure}
-              showProgress
             />
           ))
         )}
       </div>
+
+      {/* 分頁控制 */}
+      {pagination && pagination.totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={page <= 1}
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            上一頁
+          </Button>
+          <span className="text-sm text-muted-foreground px-3">
+            第 {pagination.page} / {pagination.totalPages} 頁
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={page >= pagination.totalPages}
+            onClick={() => setPage(p => p + 1)}
+          >
+            下一頁
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

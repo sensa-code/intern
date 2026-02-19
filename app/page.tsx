@@ -9,6 +9,7 @@ import {
   ArrowRight,
   Stethoscope,
   Languages,
+  Siren, Scissors, Bone, Wind, ScanLine, Heart,
 } from 'lucide-react';
 
 export const revalidate = 300; // ISR: revalidate every 5 minutes
@@ -65,7 +66,7 @@ export default async function Home() {
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link href="/training">我的訓練計劃</Link>
+                <Link href="/training">學習進度追蹤</Link>
               </Button>
             </div>
           </div>
@@ -119,9 +120,9 @@ export default async function Home() {
             <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mx-auto mb-4">
               <GraduationCap className="h-6 w-6 text-green-600" />
             </div>
-            <h3 className="font-semibold mb-2">個人化訓練計劃</h3>
+            <h3 className="font-semibold mb-2">學習進度追蹤</h3>
             <p className="text-sm text-gray-600">
-              依據學習需求建立專屬訓練計劃，排程練習日程，追蹤每個程序的精通程度。
+              自動記錄瀏覽過的程序，標記學習狀態，追蹤複習進度。無須登入，資料存於本機。
             </p>
           </div>
           <div className="text-center">
@@ -132,6 +133,44 @@ export default async function Home() {
             <p className="text-sm text-gray-600">
               所有程序內容支援繁體中文與英文切換，方便對照原文與翻譯內容。
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 科別預覽 Section (P2-4) */}
+      <section className="bg-gray-50/50">
+        <div className="container mx-auto px-4 py-12 md:py-16">
+          <h2 className="text-xl md:text-2xl font-bold text-center mb-8">
+            涵蓋 12 個獸醫專科
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 max-w-4xl mx-auto">
+            {[
+              { icon: Siren, name: '急診與重症', color: 'text-red-600 bg-red-50' },
+              { icon: Scissors, name: '軟組織外科', color: 'text-blue-600 bg-blue-50' },
+              { icon: Bone, name: '骨科', color: 'text-amber-600 bg-amber-50' },
+              { icon: Stethoscope, name: '內科', color: 'text-green-600 bg-green-50' },
+              { icon: Wind, name: '麻醉與疼痛', color: 'text-purple-600 bg-purple-50' },
+              { icon: Heart, name: '心肺科', color: 'text-rose-600 bg-rose-50' },
+            ].map(({ icon: Icon, name, color }) => (
+              <Link
+                key={name}
+                href="/procedures"
+                className="flex flex-col items-center gap-2 p-4 rounded-lg border bg-white hover:shadow-md transition-shadow text-center"
+              >
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${color}`}>
+                  <Icon className="h-5 w-5" />
+                </div>
+                <span className="text-xs font-medium text-gray-700">{name}</span>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-6">
+            <Button asChild variant="link" className="text-sm">
+              <Link href="/procedures">
+                查看全部科別
+                <ArrowRight className="ml-1 h-3 w-3" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

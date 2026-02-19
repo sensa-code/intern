@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     default: "VetTrainer — 獸醫住院醫師訓練系統",
     template: "%s | VetTrainer",
   },
-  description: "基於 BSAVA 臨床程序指南的個人化訓練計劃管理，涵蓋 62 個獸醫臨床程序。",
+  description: "基於 BSAVA 臨床程序指南的獸醫住院醫師訓練系統，涵蓋 343 個犬貓臨床程序，支援中英雙語切換與 12+ 專科分類。",
 };
 
 export default function RootLayout({

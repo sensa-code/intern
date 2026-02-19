@@ -240,3 +240,57 @@ export function getDepartmentById(id: string): Department | undefined {
 export function getFilterableDepartments(): Department[] {
   return DEPARTMENTS.filter(d => d.id !== 'general');
 }
+
+// ========================================
+// Tag 中文翻譯對照表
+// ========================================
+
+const TAG_ZH_MAP: Record<string, string> = {
+  // 急診
+  emergency: '急診', 'critical-care': '重症照護', triage: '檢傷分類',
+  transfusion: '輸血', 'vascular-access': '血管通路', 'fluid-therapy': '輸液治療',
+  // 外科
+  surgery: '外科', reconstructive: '重建手術', 'wound-care': '傷口照護',
+  'head-neck': '頭頸', perineal: '會陰', abdominal: '腹腔', thoracic: '胸腔',
+  // 骨科
+  orthopedics: '骨科', hip: '髖關節', elbow: '肘關節', stifle: '膝關節',
+  fracture: '骨折', bandage: '繃帶固定',
+  // 內科
+  'internal-medicine': '內科', gastric: '胃', hepatic: '肝臟',
+  hepatobiliary: '肝膽', endocrine: '內分泌', GI: '消化道',
+  // 麻醉
+  anesthesia: '麻醉', sedation: '鎮靜', pain: '疼痛管理',
+  // 影像
+  ultrasound: '超音波', radiology: '放射學', imaging: '影像',
+  endoscopy: '內視鏡', MRI: 'MRI', CT: 'CT',
+  // 心肺
+  cardiology: '心臟科', cardiac: '心臟', respiratory: '呼吸',
+  // 神經
+  neurology: '神經科', behavior: '行為',
+  // 眼科
+  ophthalmology: '眼科',
+  // 皮膚
+  dermatology: '皮膚科', otology: '耳科',
+  // 病理
+  laboratory: '實驗室', 'clinical-pathology': '臨床病理', cytology: '細胞學',
+  hematology: '血液學', diagnostics: '診斷', pharmacology: '藥理學', toxicology: '毒理學',
+  // 其他專科
+  oncology: '腫瘤科', infectious: '傳染病', parasitology: '寄生蟲學',
+  mycology: '真菌學', zoonosis: '人畜共通', immunology: '免疫學',
+  nephrology: '腎臟科', urology: '泌尿科', urinary: '泌尿',
+  reproduction: '繁殖', reproductive: '繁殖',
+  rehabilitation: '復健', nutrition: '營養', palliative: '安寧照護',
+  dental: '牙科',
+  // 一般
+  basic: '基礎技能', handling: '保定', monitoring: '監測', ethics: '倫理',
+  // 補充常見
+  sampling: '採樣', biopsy: '切片', catheter: '導管', drainage: '引流',
+  suturing: '縫合', casting: '石膏固定', splinting: '夾板固定',
+};
+
+/**
+ * 將英文 tag 翻譯為中文（查無翻譯則返回原文）
+ */
+export function translateTag(tag: string): string {
+  return TAG_ZH_MAP[tag] ?? tag;
+}

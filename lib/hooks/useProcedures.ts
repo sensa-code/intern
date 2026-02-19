@@ -1,14 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { Procedure, ProcedureFilters, ProcedureProgress } from '../types';
+import type { Procedure, ProcedureFilters, ProcedureProgress, PaginationInfo } from '../types';
 import { supabase } from '../supabase/client';
 
 /**
- * 取得所有程序 — 透過 API Route 查詢（繞過 RLS）
+ * 取得程序列表（分頁） — 透過 API Route 查詢（繞過 RLS）
  */
 export function useProcedures(filters?: ProcedureFilters) {
   const [procedures, setProcedures] = useState<Procedure[]>([]);
+  const [pagination, setPagination] = useState<PaginationInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -24,6 +25,8 @@ export function useProcedures(filters?: ProcedureFilters) {
         if (filters?.category) params.set('category', filters.category);
         if (filters?.department) params.set('department', filters.department);
         if (filters?.search) params.set('search', filters.search);
+        if (filters?.page) params.set('page', String(filters.page));
+        if (filters?.pageSize) params.set('pageSize', String(filters.pageSize));
 
         const url = `/api/procedures${params.toString() ? `?${params}` : ''}`;
         const res = await fetch(url, { signal: controller.signal });
@@ -32,8 +35,15 @@ export function useProcedures(filters?: ProcedureFilters) {
           throw new Error(`HTTP ${res.status}: ${res.statusText}`);
         }
 
-        const data: Procedure[] = await res.json();
-        setProcedures(data);
+        const json = await res.json();
+        // 支援新格式 { data, pagination } 和舊格式（直接陣列）
+        if (Array.isArray(json)) {
+          setProcedures(json);
+          setPagination(null);
+        } else {
+          setProcedures(json.data ?? []);
+          setPagination(json.pagination ?? null);
+        }
       } catch (err) {
         if ((err as Error).name !== 'AbortError') {
           setError(err as Error);
@@ -46,9 +56,9 @@ export function useProcedures(filters?: ProcedureFilters) {
     fetchProcedures();
 
     return () => controller.abort();
-  }, [filters?.category, filters?.department, filters?.search]);
+  }, [filters?.category, filters?.department, filters?.search, filters?.page, filters?.pageSize]);
 
-  return { procedures, loading, error };
+  return { procedures, pagination, loading, error };
 }
 
 /**

@@ -1,4 +1,4 @@
-import type { Procedure } from '@/lib/types';
+import type { Procedure, ContentLocale } from '@/lib/types';
 
 /**
  * 取得程序的顯示名稱
@@ -13,16 +13,28 @@ export function getDisplayName(procedure: Pick<Procedure, 'name' | 'name_zh'>): 
 }
 
 /**
- * 取得程序的主要名稱（中文優先）
+ * 取得程序的主要名稱（根據語言偏好）
+ * - zh: 中文優先，fallback 英文
+ * - en: 英文
  */
-export function getPrimaryName(procedure: Pick<Procedure, 'name' | 'name_zh'>): string {
+export function getPrimaryName(
+  procedure: Pick<Procedure, 'name' | 'name_zh'>,
+  locale?: ContentLocale,
+): string {
+  if (locale === 'en') return procedure.name;
   return procedure.name_zh || procedure.name;
 }
 
 /**
- * 取得程序的次要名稱（英文，用於副標題）
- * 如果沒有中文名稱則回傳 null（不需要顯示副標題）
+ * 取得程序的次要名稱（副標題用）
+ * - zh 模式：回傳英文名
+ * - en 模式：回傳中文名
  */
-export function getSecondaryName(procedure: Pick<Procedure, 'name' | 'name_zh'>): string | null {
-  return procedure.name_zh ? procedure.name : null;
+export function getSecondaryName(
+  procedure: Pick<Procedure, 'name' | 'name_zh'>,
+  locale?: ContentLocale,
+): string | null {
+  if (!procedure.name_zh) return null;
+  if (locale === 'en') return procedure.name_zh;
+  return procedure.name;
 }
