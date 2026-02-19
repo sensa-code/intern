@@ -22,6 +22,9 @@ type ProceduresRow = {
   difficulty_level: number | null;
   estimated_duration_minutes: number | null;
   tags: string[] | null;
+  department: string;
+  illustration_url: string | null;
+  flow_diagram: string | null;
   created_at: string;
   updated_at: string;
 };

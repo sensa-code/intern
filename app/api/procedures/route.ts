@@ -8,13 +8,15 @@ export const dynamic = 'force-dynamic';
  * 伺服器端查詢程序列表（使用 service role 繞過 RLS）
  *
  * Query params:
- *   category - 單字母分類篩選
- *   search   - 名稱模糊搜尋
+ *   category   - 單字母分類篩選
+ *   department - 專科分類篩選
+ *   search     - 名稱模糊搜尋
  */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
+    const department = searchParams.get('department');
     const search = searchParams.get('search');
 
     let query = supabaseServer
@@ -24,6 +26,10 @@ export async function GET(request: NextRequest) {
 
     if (category) {
       query = query.eq('category', category);
+    }
+
+    if (department) {
+      query = query.eq('department', department);
     }
 
     if (search) {

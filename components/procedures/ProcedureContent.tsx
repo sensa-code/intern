@@ -39,6 +39,81 @@ function splitNumberedItems(text: string): string[] {
     .filter(item => item.length > 0);
 }
 
+/**
+ * 解析內聯格式：**bold**、Note:/Warning: callout
+ */
+function parseInlineFormatting(text: string): React.ReactNode {
+  // 先處理 **bold** 標記
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i} className="font-semibold">{part.slice(2, -2)}</strong>;
+    }
+    return <React.Fragment key={i}>{part}</React.Fragment>;
+  });
+}
+
+/**
+ * 檢查是否為小標題行（以 : 或 ： 結尾的短行）
+ */
+function isSubheading(line: string): boolean {
+  const trimmed = line.trim();
+  return (trimmed.endsWith(':') || trimmed.endsWith('：')) && trimmed.length < 80;
+}
+
+/**
+ * 檢查是否為注意/警告行
+ */
+function getCalloutType(line: string): 'note' | 'warning' | null {
+  const trimmed = line.trim().toLowerCase();
+  if (trimmed.startsWith('note:') || trimmed.startsWith('注意：') || trimmed.startsWith('注意:') || trimmed.startsWith('備註：') || trimmed.startsWith('備註:')) return 'note';
+  if (trimmed.startsWith('warning:') || trimmed.startsWith('警告：') || trimmed.startsWith('警告:') || trimmed.startsWith('⚠')) return 'warning';
+  return null;
+}
+
+/**
+ * 渲染段落，支援小標題和 callout
+ */
+function renderParagraphLines(content: string): React.ReactNode {
+  const lines = content.split('\n');
+  const elements: React.ReactNode[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.trim()) {
+      elements.push(<br key={`br-${i}`} />);
+      continue;
+    }
+
+    const callout = getCalloutType(line);
+    if (callout) {
+      const bgClass = callout === 'warning'
+        ? 'bg-amber-50 border-amber-200 text-amber-800'
+        : 'bg-blue-50 border-blue-200 text-blue-800';
+      elements.push(
+        <div key={i} className={`p-2.5 rounded-md border text-xs my-2 ${bgClass}`}>
+          {parseInlineFormatting(line.trim())}
+        </div>
+      );
+    } else if (isSubheading(line)) {
+      elements.push(
+        <p key={i} className="font-semibold text-foreground mt-3 mb-1">
+          {parseInlineFormatting(line.trim())}
+        </p>
+      );
+    } else {
+      elements.push(
+        <span key={i}>
+          {parseInlineFormatting(line)}
+          {i < lines.length - 1 ? '\n' : ''}
+        </span>
+      );
+    }
+  }
+
+  return elements;
+}
+
 export function ProcedureContent({ content }: ProcedureContentProps) {
   if (!content || content.trim().length === 0) return null;
 
@@ -52,7 +127,7 @@ export function ProcedureContent({ content }: ProcedureContentProps) {
           {items.map((item, i) => (
             <li key={i} className="flex gap-2">
               <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/50" />
-              <span>{item}</span>
+              <span>{parseInlineFormatting(item)}</span>
             </li>
           ))}
         </ul>
@@ -61,23 +136,27 @@ export function ProcedureContent({ content }: ProcedureContentProps) {
     case 'numbered': {
       const items = splitNumberedItems(content);
       return (
-        <ol className="space-y-2 text-sm leading-relaxed">
-          {items.map((item, i) => (
-            <li key={i} className="flex gap-2">
-              <span className="font-mono text-muted-foreground shrink-0 mt-0.5">
-                {item.match(/^(\d{1,2})\./)?.[1] || (i + 1)}.
-              </span>
-              <span>{item.replace(/^\d{1,2}\.\s*/, '')}</span>
-            </li>
-          ))}
+        <ol className="space-y-3 text-sm leading-relaxed">
+          {items.map((item, i) => {
+            const stepNum = item.match(/^(\d{1,2})\./)?.[1] || String(i + 1);
+            const itemText = item.replace(/^\d{1,2}\.\s*/, '');
+            return (
+              <li key={i} className="flex gap-3">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-semibold mt-0.5">
+                  {stepNum}
+                </span>
+                <span className="flex-1">{parseInlineFormatting(itemText)}</span>
+              </li>
+            );
+          })}
         </ol>
       );
     }
     default:
       return (
-        <p className="text-sm leading-relaxed whitespace-pre-line">
-          {content}
-        </p>
+        <div className="text-sm leading-relaxed whitespace-pre-line">
+          {renderParagraphLines(content)}
+        </div>
       );
   }
 }

@@ -8,6 +8,7 @@ import { Progress } from '@/components/ui/progress';
 import { Clock, CheckCircle2, Circle, PlayCircle } from 'lucide-react';
 import type { Procedure, ProcedureProgress } from '@/lib/types';
 import { getPrimaryName, getSecondaryName } from '@/lib/utils/display-name';
+import { getDepartmentById } from '@/lib/constants/departments';
 
 interface ProcedureCardProps {
   procedure: Procedure;
@@ -66,10 +67,19 @@ export function ProcedureCard({
         <CardHeader>
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
-                <Badge variant="outline" className="font-mono">
-                  {procedure.category}
-                </Badge>
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                {(() => {
+                  const dept = getDepartmentById(procedure.department);
+                  return dept ? (
+                    <Badge variant="outline" className={`text-xs ${dept.colorClasses.badge}`}>
+                      {dept.name_zh}
+                    </Badge>
+                  ) : (
+                    <Badge variant="outline" className="font-mono">
+                      {procedure.category}
+                    </Badge>
+                  );
+                })()}
                 {showProgress && (
                   <Badge variant={getStatusColor()}>
                     {STATUS_LABELS[progress?.status || 'not_started'] || '未開始'}

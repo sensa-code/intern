@@ -3,14 +3,20 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, BookOpen, AlertTriangle, FileText, Loader2, Info } from 'lucide-react';
+import {
+  ArrowLeft, BookOpen, AlertTriangle, FileText, Loader2, Info,
+  Wrench, UserCog, Zap, ListOrdered, HeartPulse, AlertCircle,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ProcedureContent } from '@/components/procedures/ProcedureContent';
+import { ProcedureIllustration } from '@/components/procedures/ProcedureIllustration';
 import { LanguageToggle } from '@/components/procedures/LanguageToggle';
 import { cleanOcrText } from '@/lib/text-cleaning';
 import { getProcedureQuality, isContentSafeToShow } from '@/lib/data-quality';
+import { useLocalePreference } from '@/lib/hooks/useLocalePreference';
+import { getDepartmentById } from '@/lib/constants/departments';
 import type { Procedure, ProcedureContentField, ProcedureSection, ContentLocale } from '@/lib/types';
 import { getPrimaryName } from '@/lib/utils/display-name';
 
@@ -26,13 +32,25 @@ const SECTION_CONFIG: { key: ProcedureContentField; label: string }[] = [
   { key: 'complications', label: '併發症 (Complications)' },
 ];
 
-/** 依據 section key 取得對應圖標 */
+/** 依據 section key 取得對應圖標（含顏色） */
 function getSectionIcon(key: string): React.ReactNode {
   switch (key) {
     case 'indications':
-      return <BookOpen className="h-4 w-4" />;
+      return <BookOpen className="h-4 w-4 text-green-600" />;
     case 'contraindications':
-      return <AlertTriangle className="h-4 w-4" />;
+      return <AlertTriangle className="h-4 w-4 text-red-500" />;
+    case 'equipment':
+      return <Wrench className="h-4 w-4 text-gray-600" />;
+    case 'patient_preparation':
+      return <UserCog className="h-4 w-4 text-blue-600" />;
+    case 'technique':
+      return <Zap className="h-4 w-4 text-purple-600" />;
+    case 'procedure_steps':
+      return <ListOrdered className="h-4 w-4 text-indigo-600" />;
+    case 'aftercare':
+      return <HeartPulse className="h-4 w-4 text-pink-600" />;
+    case 'complications':
+      return <AlertCircle className="h-4 w-4 text-orange-500" />;
     default:
       return <FileText className="h-4 w-4" />;
   }
@@ -85,7 +103,7 @@ export default function ProcedureDetailPage() {
   const [loading, setLoading] = useState(true);
   const [procedure, setProcedure] = useState<Procedure | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [locale, setLocale] = useState<ContentLocale>('en');
+  const [locale, setLocale] = useLocalePreference();
 
   useEffect(() => {
     if (!id) {
@@ -206,9 +224,18 @@ export default function ProcedureDetailPage() {
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <Badge variant="outline" className="font-mono text-sm">
-            {procedure.category}
-          </Badge>
+          {(() => {
+            const dept = getDepartmentById(procedure.department);
+            return dept ? (
+              <Badge variant="outline" className={`text-sm ${dept.colorClasses.badge}`}>
+                {dept.name_zh}
+              </Badge>
+            ) : (
+              <Badge variant="outline" className="font-mono text-sm">
+                {procedure.category}
+              </Badge>
+            );
+          })()}
           {procedure.page_number && (
             <Badge variant="secondary" className="text-xs">
               <BookOpen className="mr-1 h-3 w-3" />
@@ -228,6 +255,12 @@ export default function ProcedureDetailPage() {
 
       {/* RAG 來源提示 */}
       {quality.status === 'needs_review' && <RagSourceBanner />}
+
+      {/* 流程圖 / 圖解 */}
+      <ProcedureIllustration
+        illustrationUrl={procedure.illustration_url ?? null}
+        flowDiagram={procedure.flow_diagram ?? null}
+      />
 
       {/* 內容區塊 或 空狀態 */}
       {cleanedSections.length === 0 ? (

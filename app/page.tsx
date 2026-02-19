@@ -92,8 +92,8 @@ export default async function Home() {
           <Card className="text-center">
             <CardContent className="pt-6">
               <BarChart3 className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-              <p className="text-3xl font-bold text-purple-600">A–Z</p>
-              <p className="text-sm text-gray-600 mt-1">分類瀏覽</p>
+              <p className="text-3xl font-bold text-purple-600">12+</p>
+              <p className="text-sm text-gray-600 mt-1">專科分類</p>
             </CardContent>
           </Card>
         </div>

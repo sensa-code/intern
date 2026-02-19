@@ -35,6 +35,11 @@ export interface Procedure {
   difficulty_level: number | null;
   estimated_duration_minutes: number | null;
   tags: string[] | null;
+  department: string;
+
+  // 圖片與流程圖
+  illustration_url: string | null;
+  flow_diagram: string | null;
 
   created_at: string;
   updated_at: string;
@@ -157,6 +162,7 @@ export interface ScheduleViewProps {
 
 export interface ProcedureFilters {
   category?: string;
+  department?: string;
   search?: string;
   difficulty?: number[];
   status?: string[];

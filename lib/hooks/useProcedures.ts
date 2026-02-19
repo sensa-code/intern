@@ -22,6 +22,7 @@ export function useProcedures(filters?: ProcedureFilters) {
 
         const params = new URLSearchParams();
         if (filters?.category) params.set('category', filters.category);
+        if (filters?.department) params.set('department', filters.department);
         if (filters?.search) params.set('search', filters.search);
 
         const url = `/api/procedures${params.toString() ? `?${params}` : ''}`;
@@ -45,7 +46,7 @@ export function useProcedures(filters?: ProcedureFilters) {
     fetchProcedures();
 
     return () => controller.abort();
-  }, [filters?.category, filters?.search]);
+  }, [filters?.category, filters?.department, filters?.search]);
 
   return { procedures, loading, error };
 }
