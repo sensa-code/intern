@@ -4,42 +4,18 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseServer } from '@/lib/supabase/server';
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
-
-async function verifyAdmin(): Promise<{ userId: string; role: string } | null> {
-  try {
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() { return cookieStore.getAll(); },
-          setAll() { /* no-op */ },
-        },
-      }
-    );
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return null;
-
-    const { data: roleData } = await supabaseServer
-      .from('vt_user_roles')
-      .select('role')
-      .eq('user_id', user.id)
-      .single();
-
-    if (!roleData || !['super_admin', 'editor'].includes(roleData.role)) return null;
-    return { userId: user.id, role: roleData.role };
-  } catch {
-    return null;
-  }
-}
+import {
+  verifyAdmin, isValidUUID, checkCSRF, safeErrorResponse,
+} from '@/lib/auth/verify-admin';
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!checkCSRF(request)) {
+    return NextResponse.json({ error: '請求來源不合法' }, { status: 403 });
+  }
+
   const admin = await verifyAdmin();
   if (!admin) {
     return NextResponse.json({ error: '未授權' }, { status: 401 });
@@ -47,13 +23,30 @@ export async function PUT(
 
   const { id } = await params;
 
+  // UUID 格式驗證
+  if (!isValidUUID(id)) {
+    return NextResponse.json({ error: '無效的 ID 格式' }, { status: 400 });
+  }
+
   try {
+    // 確認記錄存在且未刪除
+    const { data: existing } = await supabaseServer
+      .from('vt_procedures')
+      .select('id')
+      .eq('id', id)
+      .is('deleted_at', null)
+      .single();
+
+    if (!existing) {
+      return NextResponse.json({ error: '找不到該程序' }, { status: 404 });
+    }
+
     const body = await request.json();
 
     // 移除不該直接更新的欄位
     const { id: _id, created_at: _ca, procedure_id: _pid, ...updateData } = body;
 
-    // 設定編輯者
+    // 設定編輯者和更新時間
     updateData.last_edited_by = admin.userId;
     updateData.updated_at = new Date().toISOString();
 
@@ -65,14 +58,12 @@ export async function PUT(
       .single();
 
     if (error) {
-      console.error('Error updating procedure:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return safeErrorResponse(error, '更新程序失敗');
     }
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Error in PUT:', error);
-    return NextResponse.json({ error: '伺服器錯誤' }, { status: 500 });
+    return safeErrorResponse(error, '伺服器錯誤');
   }
 }
 
@@ -87,7 +78,23 @@ export async function DELETE(
 
   const { id } = await params;
 
+  if (!isValidUUID(id)) {
+    return NextResponse.json({ error: '無效的 ID 格式' }, { status: 400 });
+  }
+
   try {
+    // 確認記錄存在
+    const { data: existing } = await supabaseServer
+      .from('vt_procedures')
+      .select('id')
+      .eq('id', id)
+      .is('deleted_at', null)
+      .single();
+
+    if (!existing) {
+      return NextResponse.json({ error: '找不到該程序' }, { status: 404 });
+    }
+
     // 軟刪除
     const { error } = await supabaseServer
       .from('vt_procedures')
@@ -95,13 +102,11 @@ export async function DELETE(
       .eq('id', id);
 
     if (error) {
-      console.error('Error deleting procedure:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return safeErrorResponse(error, '刪除程序失敗');
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error in DELETE:', error);
-    return NextResponse.json({ error: '伺服器錯誤' }, { status: 500 });
+    return safeErrorResponse(error, '伺服器錯誤');
   }
 }

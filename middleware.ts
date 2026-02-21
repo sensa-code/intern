@@ -1,5 +1,5 @@
 // ================================================
-// Next.js Middleware — 路由保護
+// Next.js Middleware — 路由保護 + CSRF + 安全標頭
 // 保護 /admin/* 路由，需要 editor 或 super_admin 角色
 // ================================================
 
@@ -8,6 +8,23 @@ import { updateSession } from '@/lib/supabase/middleware';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // 0. CSRF 保護 — admin API 的 mutation 請求
+  if (pathname.startsWith('/api/admin') && request.method !== 'GET') {
+    const origin = request.headers.get('origin');
+    const host = request.headers.get('host');
+
+    if (origin) {
+      try {
+        const originHost = new URL(origin).host;
+        if (originHost !== host) {
+          return NextResponse.json({ error: 'CSRF: 請求來源不合法' }, { status: 403 });
+        }
+      } catch {
+        return NextResponse.json({ error: 'CSRF: 無效的來源' }, { status: 403 });
+      }
+    }
+  }
 
   // 1. 公開路由 — 不需要認證
   if (
@@ -21,7 +38,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/favicon')
   ) {
     const { supabaseResponse } = await updateSession(request);
-    return supabaseResponse;
+    return addSecurityHeaders(supabaseResponse);
   }
 
   // 2. Auth 路由（login）— 已登入則導向 admin
@@ -30,7 +47,7 @@ export async function middleware(request: NextRequest) {
     if (user) {
       return NextResponse.redirect(new URL('/admin', request.url));
     }
-    return supabaseResponse;
+    return addSecurityHeaders(supabaseResponse);
   }
 
   // 3. Admin 路由 — 需要認證 + 角色檢查
@@ -39,12 +56,15 @@ export async function middleware(request: NextRequest) {
 
     // 未登入 → 導向登入頁
     if (!user) {
+      if (pathname.startsWith('/api/admin')) {
+        return NextResponse.json({ error: '未登入' }, { status: 401 });
+      }
       const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('redirect', pathname);
       return NextResponse.redirect(loginUrl);
     }
 
-    // 檢查角色（用 service role 在 API 端點內處理更安全，這裡做基本檢查）
+    // 檢查角色（API 端點內有更嚴格的 service role 檢查）
     const { data: roleData } = await supabase
       .from('vt_user_roles')
       .select('role')
@@ -53,17 +73,28 @@ export async function middleware(request: NextRequest) {
 
     const role = roleData?.role;
 
-    // 無角色或角色不足 → 導向首頁
+    // 無角色或角色不足
     if (!role || role === 'viewer') {
+      if (pathname.startsWith('/api/admin')) {
+        return NextResponse.json({ error: '權限不足' }, { status: 403 });
+      }
       return NextResponse.redirect(new URL('/?error=unauthorized', request.url));
     }
 
-    return supabaseResponse;
+    return addSecurityHeaders(supabaseResponse);
   }
 
   // 4. 其他路由 — 正常通過
   const { supabaseResponse } = await updateSession(request);
-  return supabaseResponse;
+  return addSecurityHeaders(supabaseResponse);
+}
+
+/** 為回應加上安全標頭 */
+function addSecurityHeaders(response: NextResponse): NextResponse {
+  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  return response;
 }
 
 export const config = {

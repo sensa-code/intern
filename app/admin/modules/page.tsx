@@ -28,21 +28,25 @@ const STATUS_MAP: Record<string, { label: string; variant: 'default' | 'secondar
 export default function AdminModulesPage() {
   const [modules, setModules] = useState<ModuleRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [typeFilter, setTypeFilter] = useState('');
   const [deleting, setDeleting] = useState<string | null>(null);
 
   const loadModules = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       const params = new URLSearchParams();
       if (typeFilter) params.set('type', typeFilter);
       const res = await fetch(`/api/admin/modules?${params.toString()}`);
-      if (res.ok) {
-        const data = await res.json();
-        setModules(data.data ?? []);
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || `HTTP ${res.status}`);
       }
-    } catch {
-      // silent
+      const data = await res.json();
+      setModules(data.data ?? []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '載入模組列表失敗');
     } finally {
       setLoading(false);
     }
@@ -55,9 +59,13 @@ export default function AdminModulesPage() {
     setDeleting(id);
     try {
       const res = await fetch(`/api/admin/modules/${id}`, { method: 'DELETE' });
-      if (res.ok) setModules(prev => prev.filter(m => m.id !== id));
-    } catch {
-      alert('刪除失敗');
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || '刪除失敗');
+      }
+      setModules(prev => prev.filter(m => m.id !== id));
+    } catch (err) {
+      alert(err instanceof Error ? err.message : '刪除失敗');
     } finally {
       setDeleting(null);
     }
@@ -100,6 +108,14 @@ export default function AdminModulesPage() {
           </Card>
         ))}
       </div>
+
+      {/* 錯誤提示 */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
+          <p className="text-sm text-red-700">{error}</p>
+          <Button variant="ghost" size="sm" onClick={loadModules}>重試</Button>
+        </div>
+      )}
 
       {/* 列表 */}
       {loading ? (

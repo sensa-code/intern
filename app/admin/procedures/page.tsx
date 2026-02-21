@@ -43,6 +43,7 @@ function AdminProceduresList() {
 
   const [procedures, setProcedures] = useState<ProcedureRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [deptFilter, setDeptFilter] = useState('');
   const [currentStatus, setCurrentStatus] = useState(statusFilter);
@@ -50,6 +51,7 @@ function AdminProceduresList() {
 
   const loadProcedures = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       const params = new URLSearchParams();
       if (search) params.set('search', search);
@@ -58,12 +60,14 @@ function AdminProceduresList() {
       params.set('pageSize', '500');
 
       const res = await fetch(`/api/procedures?${params.toString()}`);
-      if (res.ok) {
-        const data = await res.json();
-        setProcedures(data.data ?? []);
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || `HTTP ${res.status}`);
       }
-    } catch {
-      // silent
+      const data = await res.json();
+      setProcedures(data.data ?? []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '載入程序列表失敗');
     } finally {
       setLoading(false);
     }
@@ -78,11 +82,13 @@ function AdminProceduresList() {
     setDeleting(id);
     try {
       const res = await fetch(`/api/admin/procedures/${id}`, { method: 'DELETE' });
-      if (res.ok) {
-        setProcedures(prev => prev.filter(p => p.id !== id));
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || '刪除失敗');
       }
-    } catch {
-      alert('刪除失敗');
+      setProcedures(prev => prev.filter(p => p.id !== id));
+    } catch (err) {
+      alert(err instanceof Error ? err.message : '刪除失敗');
     } finally {
       setDeleting(null);
     }
@@ -144,6 +150,14 @@ function AdminProceduresList() {
           </div>
         </CardContent>
       </Card>
+
+      {/* 錯誤提示 */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
+          <p className="text-sm text-red-700">{error}</p>
+          <Button variant="ghost" size="sm" onClick={loadProcedures}>重試</Button>
+        </div>
+      )}
 
       {/* 列表 */}
       {loading ? (

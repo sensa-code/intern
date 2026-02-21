@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ClipboardList, Package, CheckCircle, AlertTriangle, Clock, Plus } from 'lucide-react';
+import { ClipboardList, Package, CheckCircle, AlertTriangle, Clock, Plus, RefreshCcw } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -17,20 +17,26 @@ interface DashboardStats {
 export default function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  async function loadStats() {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/admin/stats');
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || `HTTP ${res.status}`);
+      }
+      setStats(await res.json());
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '載入統計資料失敗');
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    async function loadStats() {
-      try {
-        const res = await fetch('/api/admin/stats');
-        if (res.ok) {
-          setStats(await res.json());
-        }
-      } catch {
-        // silent
-      } finally {
-        setLoading(false);
-      }
-    }
     loadStats();
   }, []);
 
@@ -61,6 +67,17 @@ export default function AdminDashboard() {
           </Link>
         </Button>
       </div>
+
+      {/* 錯誤提示 */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
+          <p className="text-sm text-red-700">載入失敗：{error}</p>
+          <Button variant="ghost" size="sm" onClick={loadStats}>
+            <RefreshCcw className="h-4 w-4 mr-1" />
+            重試
+          </Button>
+        </div>
+      )}
 
       {/* 統計卡片 */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

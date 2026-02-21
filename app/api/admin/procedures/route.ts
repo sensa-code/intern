@@ -4,42 +4,16 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseServer } from '@/lib/supabase/server';
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
-
-/** 驗證管理員身份 */
-async function verifyAdmin(): Promise<{ userId: string; role: string } | null> {
-  try {
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() { return cookieStore.getAll(); },
-          setAll() { /* Server Component */ },
-        },
-      }
-    );
-
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return null;
-
-    const { data: roleData } = await supabaseServer
-      .from('vt_user_roles')
-      .select('role')
-      .eq('user_id', user.id)
-      .single();
-
-    if (!roleData || !['super_admin', 'editor'].includes(roleData.role)) return null;
-
-    return { userId: user.id, role: roleData.role };
-  } catch {
-    return null;
-  }
-}
+import {
+  verifyAdmin, checkCSRF, sanitizeString, safeErrorResponse,
+} from '@/lib/auth/verify-admin';
 
 export async function POST(request: NextRequest) {
+  // CSRF 檢查
+  if (!checkCSRF(request)) {
+    return NextResponse.json({ error: '請求來源不合法' }, { status: 403 });
+  }
+
   const admin = await verifyAdmin();
   if (!admin) {
     return NextResponse.json({ error: '未授權' }, { status: 401 });
@@ -48,21 +22,25 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const {
-      name, name_zh, category, department, difficulty_level,
-      estimated_duration_minutes, tags,
-      content_json, content_json_zh,
-      illustration_url, flow_diagram,
-      // 純文字欄位（向後相容）
-      indications, indications_zh, contraindications, contraindications_zh,
-      equipment, equipment_zh, patient_preparation, patient_preparation_zh,
-      technique, technique_zh, procedure_steps, procedure_steps_zh,
-      aftercare, aftercare_zh, complications, complications_zh,
-    } = body;
-
+    // 基本驗證
+    const name = typeof body.name === 'string' ? sanitizeString(body.name) : '';
     if (!name) {
-      return NextResponse.json({ error: '程序名稱為必填' }, { status: 400 });
+      return NextResponse.json({ error: '程序英文名稱為必填' }, { status: 400 });
     }
+
+    const nameZh = typeof body.name_zh === 'string' ? sanitizeString(body.name_zh) : null;
+    const category = typeof body.category === 'string' && ['A', 'B', 'C', 'D'].includes(body.category)
+      ? body.category : 'A';
+    const department = typeof body.department === 'string' ? body.department : 'general';
+    const difficultyLevel = typeof body.difficulty_level === 'number'
+      && body.difficulty_level >= 1 && body.difficulty_level <= 5
+      ? body.difficulty_level : null;
+    const duration = typeof body.estimated_duration_minutes === 'number'
+      && body.estimated_duration_minutes >= 1 && body.estimated_duration_minutes <= 600
+      ? body.estimated_duration_minutes : null;
+    const tags = Array.isArray(body.tags)
+      ? body.tags.filter((t: unknown) => typeof t === 'string').slice(0, 20)
+      : [];
 
     // 產生 procedure_id
     const { count } = await supabaseServer
@@ -75,41 +53,39 @@ export async function POST(request: NextRequest) {
       .insert({
         procedure_id: nextId,
         name,
-        name_zh: name_zh || null,
-        category: category || 'A',
-        department: department || 'general',
+        name_zh: nameZh,
+        category,
+        department,
         page_number: 0,
-        difficulty_level: difficulty_level || null,
-        estimated_duration_minutes: estimated_duration_minutes || null,
-        tags: tags || [],
-        content_json: content_json || null,
-        content_json_zh: content_json_zh || null,
-        illustration_url: illustration_url || null,
-        flow_diagram: flow_diagram || null,
+        difficulty_level: difficultyLevel,
+        estimated_duration_minutes: duration,
+        tags,
+        content_json: body.content_json || null,
+        content_json_zh: body.content_json_zh || null,
+        illustration_url: typeof body.illustration_url === 'string' ? body.illustration_url : null,
+        flow_diagram: typeof body.flow_diagram === 'string' ? body.flow_diagram : null,
         content_status: 'draft',
         content_source: 'manual',
         last_edited_by: admin.userId,
-        // 純文字欄位
-        indications, indications_zh,
-        contraindications, contraindications_zh,
-        equipment, equipment_zh,
-        patient_preparation, patient_preparation_zh,
-        technique, technique_zh,
-        procedure_steps, procedure_steps_zh,
-        aftercare, aftercare_zh,
-        complications, complications_zh,
+        // 純文字欄位（向後相容）
+        indications: body.indications, indications_zh: body.indications_zh,
+        contraindications: body.contraindications, contraindications_zh: body.contraindications_zh,
+        equipment: body.equipment, equipment_zh: body.equipment_zh,
+        patient_preparation: body.patient_preparation, patient_preparation_zh: body.patient_preparation_zh,
+        technique: body.technique, technique_zh: body.technique_zh,
+        procedure_steps: body.procedure_steps, procedure_steps_zh: body.procedure_steps_zh,
+        aftercare: body.aftercare, aftercare_zh: body.aftercare_zh,
+        complications: body.complications, complications_zh: body.complications_zh,
       })
       .select()
       .single();
 
     if (error) {
-      console.error('Error creating procedure:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return safeErrorResponse(error, '建立程序失敗');
     }
 
     return NextResponse.json({ data }, { status: 201 });
   } catch (error) {
-    console.error('Error in POST /api/admin/procedures:', error);
-    return NextResponse.json({ error: '伺服器錯誤' }, { status: 500 });
+    return safeErrorResponse(error, '伺服器錯誤');
   }
 }
