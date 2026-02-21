@@ -1,27 +1,31 @@
 // ================================================
-// Supabase Client - 客戶端使用
+// Supabase Client — 客戶端使用（@supabase/ssr）
 // ================================================
 
-import { createClient } from '@supabase/supabase-js';
+import { createBrowserClient as createClient } from '@supabase/ssr';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('Missing Supabase environment variables. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local');
+  console.warn(
+    'Missing Supabase environment variables. ' +
+    'Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local'
+  );
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-  realtime: {
-    params: {
-      eventsPerSecond: 10,
-    },
-  },
-});
+/**
+ * 建立瀏覽器端 Supabase client
+ * 每次呼叫都建立新實例（@supabase/ssr 建議模式）
+ */
+export function createBrowserClient() {
+  return createClient(supabaseUrl, supabaseAnonKey);
+}
+
+/**
+ * 共享 Supabase client 實例（向後相容既有程式碼）
+ */
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // ================================================
 // 輔助函數
