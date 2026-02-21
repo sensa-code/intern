@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 
 const NAV_ITEMS = [
   { href: '/procedures', label: '程序資料庫' },
+  { href: '/modules', label: '知識模組' },
   { href: '/training', label: '學習進度' },
 ] as const;
 
