@@ -1,12 +1,60 @@
 // ================================================
-// PUT/DELETE /api/admin/procedures/[id] — 更新/刪除程序
+// GET/PUT/DELETE /api/admin/procedures/[id] — 讀取/更新/刪除程序
 // ================================================
 
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseServer } from '@/lib/supabase/server';
 import {
-  verifyAdmin, isValidUUID, checkCSRF, safeErrorResponse,
+  verifyAdmin, isValidUUID, checkCSRF, safeErrorResponse, sanitizeString,
 } from '@/lib/auth/verify-admin';
+
+// P1 #7: 單筆讀取 — 避免前端下載全部再篩選
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const admin = await verifyAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: '未授權' }, { status: 401 });
+  }
+
+  const { id } = await params;
+
+  if (!isValidUUID(id)) {
+    return NextResponse.json({ error: '無效的 ID 格式' }, { status: 400 });
+  }
+
+  const { data, error } = await supabaseServer
+    .from('vt_procedures')
+    .select('*')
+    .eq('id', id)
+    .is('deleted_at', null)
+    .single();
+
+  if (error || !data) {
+    return NextResponse.json({ error: '找不到該程序' }, { status: 404 });
+  }
+
+  return NextResponse.json({ data });
+}
+
+// P1 #6: PUT 使用欄位白名單，防止 mass assignment
+const ALLOWED_PROCEDURE_FIELDS = new Set([
+  'name', 'name_zh', 'category', 'department',
+  'difficulty_level', 'estimated_duration_minutes', 'tags',
+  'content_json', 'content_json_zh',
+  'illustration_url', 'flow_diagram',
+  'content_status',
+  // 純文字欄位（向後相容）
+  'indications', 'indications_zh',
+  'contraindications', 'contraindications_zh',
+  'equipment', 'equipment_zh',
+  'patient_preparation', 'patient_preparation_zh',
+  'technique', 'technique_zh',
+  'procedure_steps', 'procedure_steps_zh',
+  'aftercare', 'aftercare_zh',
+  'complications', 'complications_zh',
+]);
 
 export async function PUT(
   request: NextRequest,
@@ -23,7 +71,6 @@ export async function PUT(
 
   const { id } = await params;
 
-  // UUID 格式驗證
   if (!isValidUUID(id)) {
     return NextResponse.json({ error: '無效的 ID 格式' }, { status: 400 });
   }
@@ -43,10 +90,20 @@ export async function PUT(
 
     const body = await request.json();
 
-    // 移除不該直接更新的欄位
-    const { id: _id, created_at: _ca, procedure_id: _pid, ...updateData } = body;
+    // P1 #6: 只允許白名單欄位通過
+    const updateData: Record<string, unknown> = {};
+    for (const key of Object.keys(body)) {
+      if (ALLOWED_PROCEDURE_FIELDS.has(key)) {
+        // 對字串欄位做 sanitize
+        if (typeof body[key] === 'string') {
+          updateData[key] = sanitizeString(body[key]);
+        } else {
+          updateData[key] = body[key];
+        }
+      }
+    }
 
-    // 設定編輯者和更新時間
+    // 系統欄位
     updateData.last_edited_by = admin.userId;
     updateData.updated_at = new Date().toISOString();
 
@@ -67,6 +124,7 @@ export async function PUT(
   }
 }
 
+// P1 #3: DELETE 限制只有 super_admin 可刪除
 export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -76,6 +134,11 @@ export async function DELETE(
     return NextResponse.json({ error: '未授權' }, { status: 401 });
   }
 
+  // 只有 super_admin 可以刪除
+  if (admin.role !== 'super_admin') {
+    return NextResponse.json({ error: '只有超級管理員可以刪除程序' }, { status: 403 });
+  }
+
   const { id } = await params;
 
   if (!isValidUUID(id)) {
@@ -83,7 +146,6 @@ export async function DELETE(
   }
 
   try {
-    // 確認記錄存在
     const { data: existing } = await supabaseServer
       .from('vt_procedures')
       .select('id')

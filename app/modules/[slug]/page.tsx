@@ -19,8 +19,21 @@ const TYPE_META: Record<string, { name_zh: string; color: string }> = {
 };
 
 /**
+ * HTML 實體轉義 — 防止 XSS 注入
+ */
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/**
  * 簡易 ProseMirror JSON → HTML 伺服器端渲染
  * 用於 Server Component（不需要 Tiptap 客戶端 bundle）
+ * 所有文字內容經過 escapeHtml() 轉義，防止 XSS
  */
 function renderJsonToHtml(json: Record<string, unknown>): string {
   if (!json || !json.content) return '';
@@ -28,32 +41,39 @@ function renderJsonToHtml(json: Record<string, unknown>): string {
   const nodes = json.content as Array<Record<string, unknown>>;
   return nodes.map(node => {
     const type = node.type as string;
-    const textContent = (node.content as Array<Record<string, unknown>> | undefined)
-      ?.map(child => {
-        if (child.type === 'text') return child.text as string;
-        return '';
-      })
-      .join('') ?? '';
+    const textContent = escapeHtml(
+      (node.content as Array<Record<string, unknown>> | undefined)
+        ?.map(child => {
+          if (child.type === 'text') return child.text as string;
+          return '';
+        })
+        .join('') ?? ''
+    );
 
     switch (type) {
       case 'heading': {
         const level = (node.attrs as Record<string, unknown>)?.level ?? 2;
+        if (![1, 2, 3, 4, 5, 6].includes(level as number)) return `<h2 class="text-lg font-semibold mt-6 mb-2">${textContent}</h2>`;
         return `<h${level} class="text-lg font-semibold mt-6 mb-2">${textContent}</h${level}>`;
       }
       case 'paragraph':
         return `<p class="mb-3 leading-relaxed">${textContent}</p>`;
       case 'bulletList':
         return `<ul class="list-disc pl-5 mb-3 space-y-1">${(node.content as Array<Record<string, unknown>>)?.map(li => {
-          const liText = (li.content as Array<Record<string, unknown>>)
-            ?.map(p => (p.content as Array<Record<string, unknown>>)?.map(t => t.text).join(''))
-            .join('');
+          const liText = escapeHtml(
+            (li.content as Array<Record<string, unknown>>)
+              ?.map(p => (p.content as Array<Record<string, unknown>>)?.map(t => t.text).join(''))
+              .join('') ?? ''
+          );
           return `<li>${liText}</li>`;
         }).join('')}</ul>`;
       case 'orderedList':
         return `<ol class="list-decimal pl-5 mb-3 space-y-1">${(node.content as Array<Record<string, unknown>>)?.map(li => {
-          const liText = (li.content as Array<Record<string, unknown>>)
-            ?.map(p => (p.content as Array<Record<string, unknown>>)?.map(t => t.text).join(''))
-            .join('');
+          const liText = escapeHtml(
+            (li.content as Array<Record<string, unknown>>)
+              ?.map(p => (p.content as Array<Record<string, unknown>>)?.map(t => t.text).join(''))
+              .join('') ?? ''
+          );
           return `<li>${liText}</li>`;
         }).join('')}</ol>`;
       case 'blockquote':
@@ -77,6 +97,7 @@ export default async function ModuleDetailPage({
     .from('vt_modules')
     .select('*')
     .eq('slug', slug)
+    .eq('content_status', 'verified')
     .is('deleted_at', null)
     .limit(1);
 

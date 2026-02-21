@@ -74,11 +74,23 @@ export function ImageUploadDialog({ open, onClose, onInsert }: ImageUploadDialog
   }
 
   function handleUrlInsert() {
-    if (!url.trim()) {
+    const trimmedUrl = url.trim();
+    if (!trimmedUrl) {
       setError('請輸入圖片網址');
       return;
     }
-    onInsert(url.trim(), alt || undefined);
+    // P2 #13: 驗證 URL 協定 — 只允許 https（防止 javascript: / data: XSS）
+    if (!trimmedUrl.startsWith('https://')) {
+      setError('圖片網址必須以 https:// 開頭');
+      return;
+    }
+    try {
+      new URL(trimmedUrl); // 驗證 URL 格式合法
+    } catch {
+      setError('無效的圖片網址格式');
+      return;
+    }
+    onInsert(trimmedUrl, alt || undefined);
     handleClose();
   }
 

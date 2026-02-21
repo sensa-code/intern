@@ -3,10 +3,13 @@
 // ================================================
 
 import { NextRequest, NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import { supabaseServer } from '@/lib/supabase/server';
 import {
   verifyAdmin, checkCSRF, sanitizeString, safeErrorResponse,
 } from '@/lib/auth/verify-admin';
+
+export const runtime = 'nodejs'; // crypto 模組需要 nodejs runtime
 
 export async function POST(request: NextRequest) {
   // CSRF 檢查
@@ -42,11 +45,10 @@ export async function POST(request: NextRequest) {
       ? body.tags.filter((t: unknown) => typeof t === 'string').slice(0, 20)
       : [];
 
-    // 產生 procedure_id
-    const { count } = await supabaseServer
-      .from('vt_procedures')
-      .select('*', { count: 'exact', head: true });
-    const nextId = `proc_${String((count ?? 0) + 1).padStart(3, '0')}`;
+    // P1 #5 修復：使用 crypto UUID 避免 race condition
+    // 舊方式 count+1 在並發時會產生重複 ID
+    const shortId = randomUUID().split('-')[0]; // 8 hex chars
+    const nextId = `proc_${shortId}`;
 
     const { data, error } = await supabaseServer
       .from('vt_procedures')
