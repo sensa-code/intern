@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useEffect, useState, useCallback } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import {
   ArrowLeft, Save, Loader2, Eye, CheckCircle, Send,
@@ -90,7 +90,6 @@ function plainTextToJson(proc: ProcedureData, locale: 'en' | 'zh'): JSONContent 
 }
 
 export default function EditProcedurePage() {
-  const router = useRouter();
   const params = useParams();
   const procedureId = params.id as string;
 
@@ -117,12 +116,9 @@ export default function EditProcedurePage() {
 
   const loadProcedure = useCallback(async () => {
     try {
-      // 用 service role 透過 admin API 是不行的（它沒有 GET by id）
-      // 我們直接用前台 API + id 篩選
-      const res = await fetch(`/api/procedures?pageSize=500`);
+      const res = await fetch(`/api/admin/procedures/${procedureId}`);
       if (!res.ok) throw new Error('載入失敗');
-      const data = await res.json();
-      const proc = (data.data as ProcedureData[])?.find((p: ProcedureData) => p.id === procedureId);
+      const { data: proc } = await res.json();
       if (!proc) throw new Error('找不到程序');
 
       setName(proc.name);

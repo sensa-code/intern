@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Error fetching modules:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: '載入模組失敗' }, { status: 500 });
     }
 
     return NextResponse.json({ data: data ?? [] });

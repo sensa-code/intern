@@ -128,9 +128,13 @@ export async function PUT(
 
 // P1 #3: DELETE 限制只有 super_admin 可刪除
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!checkCSRF(request)) {
+    return NextResponse.json({ error: '請求來源不合法' }, { status: 403 });
+  }
+
   const admin = await verifyAdmin();
   if (!admin) {
     return NextResponse.json({ error: '未授權' }, { status: 401 });

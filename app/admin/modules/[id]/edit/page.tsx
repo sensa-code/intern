@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useEffect, useState, useCallback } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Save, Loader2, Eye, CheckCircle, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,7 +15,6 @@ import { DEPARTMENTS } from '@/lib/constants/departments';
 import type { JSONContent } from '@tiptap/react';
 
 export default function EditModulePage() {
-  const router = useRouter();
   const params = useParams();
   const moduleId = params.id as string;
 
@@ -40,10 +39,9 @@ export default function EditModulePage() {
 
   const loadModule = useCallback(async () => {
     try {
-      const res = await fetch('/api/admin/modules');
+      const res = await fetch(`/api/admin/modules/${moduleId}`);
       if (!res.ok) throw new Error('載入失敗');
-      const { data } = await res.json();
-      const mod = data?.find((m: { id: string }) => m.id === moduleId);
+      const { data: mod } = await res.json();
       if (!mod) throw new Error('找不到模組');
 
       setModuleType(mod.module_type);

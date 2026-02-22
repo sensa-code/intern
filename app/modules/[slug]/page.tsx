@@ -31,9 +31,33 @@ function escapeHtml(str: string): string {
 }
 
 /**
- * 簡易 ProseMirror JSON → HTML 伺服器端渲染
- * 用於 Server Component（不需要 Tiptap 客戶端 bundle）
- * 所有文字內容經過 escapeHtml() 轉義，防止 XSS
+ * 渲染 ProseMirror text 節點（含 marks：bold / italic / code）
+ * 所有文字先 escapeHtml() 再包裝 mark 標籤
+ */
+function renderTextNode(child: Record<string, unknown>): string {
+  if (child.type !== 'text') return '';
+  let html = escapeHtml(child.text as string);
+  const marks = child.marks as Array<Record<string, unknown>> | undefined;
+  if (marks) {
+    for (const mark of marks) {
+      if (mark.type === 'bold') html = `<strong>${html}</strong>`;
+      else if (mark.type === 'italic') html = `<em>${html}</em>`;
+      else if (mark.type === 'code') html = `<code class="bg-gray-100 px-1 rounded text-sm">${html}</code>`;
+    }
+  }
+  return html;
+}
+
+/** 渲染一組 inline children → HTML */
+function renderInlineContent(children: Array<Record<string, unknown>> | undefined): string {
+  return children?.map(renderTextNode).join('') ?? '';
+}
+
+/**
+ * ProseMirror JSON → HTML 伺服器端渲染
+ * 支援 heading / paragraph / bulletList / orderedList / blockquote / hr
+ * 文字支援 bold / italic / code marks
+ * 所有文字經過 escapeHtml() 轉義，防止 XSS
  */
 function renderJsonToHtml(json: Record<string, unknown>): string {
   if (!json || !json.content) return '';
@@ -41,47 +65,39 @@ function renderJsonToHtml(json: Record<string, unknown>): string {
   const nodes = json.content as Array<Record<string, unknown>>;
   return nodes.map(node => {
     const type = node.type as string;
-    const textContent = escapeHtml(
-      (node.content as Array<Record<string, unknown>> | undefined)
-        ?.map(child => {
-          if (child.type === 'text') return child.text as string;
-          return '';
-        })
-        .join('') ?? ''
+    const inlineHtml = renderInlineContent(
+      node.content as Array<Record<string, unknown>> | undefined
     );
 
     switch (type) {
       case 'heading': {
-        const level = (node.attrs as Record<string, unknown>)?.level ?? 2;
-        if (![1, 2, 3, 4, 5, 6].includes(level as number)) return `<h2 class="text-lg font-semibold mt-6 mb-2">${textContent}</h2>`;
-        return `<h${level} class="text-lg font-semibold mt-6 mb-2">${textContent}</h${level}>`;
+        const rawLevel = (node.attrs as Record<string, unknown>)?.level;
+        const lvl = Number(rawLevel);
+        const level = Number.isInteger(lvl) && lvl >= 1 && lvl <= 6 ? lvl : 2;
+        return `<h${level} class="text-lg font-semibold mt-6 mb-2">${inlineHtml}</h${level}>`;
       }
       case 'paragraph':
-        return `<p class="mb-3 leading-relaxed">${textContent}</p>`;
+        return `<p class="mb-3 leading-relaxed">${inlineHtml}</p>`;
       case 'bulletList':
         return `<ul class="list-disc pl-5 mb-3 space-y-1">${(node.content as Array<Record<string, unknown>>)?.map(li => {
-          const liText = escapeHtml(
-            (li.content as Array<Record<string, unknown>>)
-              ?.map(p => (p.content as Array<Record<string, unknown>>)?.map(t => t.text).join(''))
-              .join('') ?? ''
-          );
-          return `<li>${liText}</li>`;
+          const liHtml = (li.content as Array<Record<string, unknown>>)
+            ?.map(p => renderInlineContent(p.content as Array<Record<string, unknown>>))
+            .join('') ?? '';
+          return `<li>${liHtml}</li>`;
         }).join('')}</ul>`;
       case 'orderedList':
         return `<ol class="list-decimal pl-5 mb-3 space-y-1">${(node.content as Array<Record<string, unknown>>)?.map(li => {
-          const liText = escapeHtml(
-            (li.content as Array<Record<string, unknown>>)
-              ?.map(p => (p.content as Array<Record<string, unknown>>)?.map(t => t.text).join(''))
-              .join('') ?? ''
-          );
-          return `<li>${liText}</li>`;
+          const liHtml = (li.content as Array<Record<string, unknown>>)
+            ?.map(p => renderInlineContent(p.content as Array<Record<string, unknown>>))
+            .join('') ?? '';
+          return `<li>${liHtml}</li>`;
         }).join('')}</ol>`;
       case 'blockquote':
-        return `<blockquote class="border-l-4 border-gray-300 pl-4 italic my-3 text-gray-600">${textContent}</blockquote>`;
+        return `<blockquote class="border-l-4 border-gray-300 pl-4 italic my-3 text-gray-600">${inlineHtml}</blockquote>`;
       case 'horizontalRule':
         return '<hr class="my-6 border-gray-200" />';
       default:
-        return textContent ? `<p class="mb-3">${textContent}</p>` : '';
+        return inlineHtml ? `<p class="mb-3">${inlineHtml}</p>` : '';
     }
   }).join('\n');
 }

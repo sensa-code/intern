@@ -286,8 +286,68 @@ const MODULES: ModuleSeed[] = [
   },
 ];
 
+// ──────────────────────────────────────────────────────
+// Module 11: anatomy_atlas — 犬腹腔手術解剖圖譜
+// ──────────────────────────────────────────────────────
+const ANATOMY_MODULE: ModuleSeed = {
+  module_type: 'anatomy_atlas',
+  title: 'Canine Abdominal Surgical Anatomy',
+  title_zh: '犬腹腔手術解剖圖譜',
+  slug: 'canine-abdominal-surgical-anatomy',
+  description: 'Topographic anatomy and surgical landmarks for canine abdominal surgery.',
+  description_zh: '犬腹腔手術常用的解剖標誌與臟器相對位置參考。',
+  department: 'soft-tissue-surgery',
+  tags: ['anatomy', 'surgery', 'abdominal'],
+  metadata: {},
+  content_status: 'verified' as const,
+  content_source: 'manual' as const,
+  sort_order: 60,
+  content_json: doc(
+    h2('Overview'),
+    p(text('This module provides a concise reference for canine abdominal topographic anatomy relevant to soft-tissue surgery.')),
+    h2('Ventral Midline Approach'),
+    h3('Landmarks'),
+    ul(li('Xiphoid process (cranial limit)'), li('Pubis (caudal limit)'), li('Linea alba — avascular midline fusion of rectus sheaths'), li('Falciform ligament (fat pad — ligate or excise for exposure)')),
+    h3('Depth Layers'),
+    ol(li('Skin + subcutaneous tissue'), li('External rectus sheath'), li('Rectus abdominis muscle'), li('Internal rectus sheath + transversalis fascia'), li('Peritoneum')),
+    h2('Organ Topography'),
+    h3('Stomach'),
+    ul(li('Left cranial abdomen, caudal to diaphragm'), li('Greater curvature: left; lesser curvature: right'), li('Pylorus: right side, ventral midline at T10-L1')),
+    h3('Liver'),
+    ul(li('Six lobes: left lateral, left medial, quadrate, right medial, right lateral, caudate'), li('Gallbladder: right medial lobe fossa')),
+    h3('Spleen'),
+    ul(li('Left cranial abdomen; highly mobile'), li('Blood supply: splenic artery (branch of celiac a.)')),
+    h3('Kidneys'),
+    ul(li('Left kidney: L2-L4, retroperitoneal, relatively mobile'), li('Right kidney: T13-L2, retroperitoneal, more fixed')),
+    h2('Major Vascular Landmarks'),
+    ul(li('Aorta: dorsal midline, left of caudal vena cava'), li('Celiac artery → hepatic, splenic, left gastric'), li('Cranial mesenteric artery → jejunal branches, ileocolic'), li('Renal arteries: at L1-L2 level'))
+  ),
+  content_json_zh: doc(
+    h2('概述'),
+    p(text('本模組為犬腹腔手術提供體表解剖學參考。了解臟器位置、血管標誌與筋膜層次是安全手術入路的基礎。')),
+    h2('腹正中線入路'),
+    h3('標誌'),
+    ul(li('劍突（顱側界限）'), li('恥骨（尾側界限）'), li('白線 — 腹直肌鞘無血管融合區'), li('鐮狀韌帶（顱側脂肪墊 — 結紮或切除）')),
+    h3('層次結構'),
+    ol(li('皮膚 + 皮下組織'), li('腹直肌外鞘'), li('腹直肌'), li('腹直肌內鞘 + 腹橫筋膜'), li('腹膜')),
+    h2('臟器體表投影'),
+    h3('胃'),
+    ul(li('左側顱側腹腔，橫膈後方'), li('大彎：左側；小彎：右側'), li('幽門：右側，腹正中 T10-L1 水平')),
+    h3('肝臟'),
+    ul(li('六葉：左外葉、左內葉、方葉、右內葉、右外葉、尾狀葉'), li('膽囊：右內葉窩')),
+    h3('脾臟'),
+    ul(li('左側顱側腹腔；活動度大'), li('血供：脾動脈（腹腔動脈分支）')),
+    h3('腎臟'),
+    ul(li('左腎：L2-L4，腹膜後，活動度較大'), li('右腎：T13-L2，腹膜後，較固定')),
+    h2('主要血管標誌'),
+    ul(li('腹主動脈：背側正中，後腔靜脈左側'), li('腹腔動脈 → 肝動脈、脾動脈、胃左動脈'), li('顱腸系膜動脈 → 空腸支、迴結腸支'), li('腎動脈：L1-L2 水平'))
+  ),
+};
+
+MODULES.push(ANATOMY_MODULE);
+
 async function main() {
-  console.log('🔄 開始 seed 擴增模組 Part 2（模組 6-10）...\n');
+  console.log('🔄 開始 seed 擴增模組 Part 2（模組 6-11）...\n');
   let created = 0, skipped = 0, failed = 0;
   for (const mod of MODULES) {
     const { data: existing } = await supabase.from('vt_modules').select('id').eq('slug', mod.slug).limit(1);

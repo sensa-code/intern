@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  LayoutDashboard, ClipboardList, Package, Image as ImageIcon,
-  Users, LogOut, Stethoscope, Loader2, ChevronLeft,
+  LayoutDashboard, ClipboardList, Package,
+  LogOut, Stethoscope, Loader2, ChevronLeft,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { createBrowserClient } from '@/lib/supabase/client';
@@ -22,8 +22,6 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/admin', label: '儀表板', icon: <LayoutDashboard className="h-4 w-4" />, roles: ['super_admin', 'editor'] },
   { href: '/admin/procedures', label: '程序管理', icon: <ClipboardList className="h-4 w-4" />, roles: ['super_admin', 'editor'] },
   { href: '/admin/modules', label: '模組管理', icon: <Package className="h-4 w-4" />, roles: ['super_admin', 'editor'] },
-  { href: '/admin/images', label: '圖片庫', icon: <ImageIcon className="h-4 w-4" />, roles: ['super_admin', 'editor'] },
-  { href: '/admin/users', label: '用戶管理', icon: <Users className="h-4 w-4" />, roles: ['super_admin'] },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

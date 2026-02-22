@@ -89,11 +89,19 @@ export async function middleware(request: NextRequest) {
   return addSecurityHeaders(supabaseResponse);
 }
 
-/** 為回應加上安全標頭 */
+/** 為回應加上安全標頭（含 CSP, HSTS, Permissions-Policy） */
 function addSecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  response.headers.set(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+    "style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; " +
+    "font-src 'self'; connect-src 'self' https://*.supabase.co"
+  );
+  response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   return response;
 }
 
