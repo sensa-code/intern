@@ -239,13 +239,14 @@ npx tsx scripts/seed-modules-expansion-part2.ts  # 6 個擴充模組
 3. **ENG-3: DRY 違規** — TipTap JSON helpers 在 3 個 seed 檔案重複定義，應抽為共用模組
 4. **UX-7: 無表單驗證庫** — Admin 表單使用手動驗證，建議整合 Zod
 5. **Training 頁面硬編碼 343** — 應從 API 動態取得程序總數
-6. **vt_checklist_templates 缺少 RLS** — 若啟用核對清單功能需先加 RLS
+6. **vt_checklist_templates RLS** — 已建立 migration `012_checklist_rls.sql`，需在 Supabase Dashboard 執行
 
 ---
 
 ## Git 歷史
 
 ```
+1532300 docs: add project-level CLAUDE.md
 5998c89 fix: Phase C Round 1 — expert review fixes (security, UX, engineering)
 4101cb0 feat: Phase B — 10 new bilingual veterinary knowledge modules
 7899ae8 fix: round 2 security — XSS escape, stats auth, allowlist PUT, super_admin delete, race-safe ID
@@ -260,4 +261,5 @@ npx tsx scripts/seed-modules-expansion-part2.ts  # 6 個擴充模組
 | 2026-02-22 | Phase B: 10 新模組 + seed 16 模組到 Supabase | 4101cb0 |
 | 2026-02-22 | Phase C: 專家審查修復 11 檔 | 5998c89 |
 | 2026-02-22 | Phase D: MCP 巡航 13 項全通過 | — |
-| 2026-02-22 | Phase E: 建立本文件 | — |
+| 2026-02-22 | Phase E: 建立本文件 | 1532300 |
+| 2026-02-22 | Phase C Round 2: checklist RLS + Procedure 型別修復 | — |

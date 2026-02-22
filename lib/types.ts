@@ -8,7 +8,7 @@ export interface Procedure {
   name: string;
   name_zh: string | null;
   category: string;
-  page_number: number;
+  page_number: number | null;
 
   // 內容（英文）
   indications: string | null;
@@ -30,6 +30,16 @@ export interface Procedure {
   procedure_steps_zh: string | null;
   aftercare_zh: string | null;
   complications_zh: string | null;
+
+  // 富文本 ProseMirror JSON
+  content_json: Record<string, unknown> | null;
+  content_json_zh: Record<string, unknown> | null;
+
+  // CMS 管理欄位
+  content_status: 'draft' | 'needs_review' | 'verified' | null;
+  content_source: 'manual' | 'ai_generated' | 'imported' | null;
+  last_edited_by: string | null;
+  deleted_at: string | null;
 
   // 元資料
   difficulty_level: number | null;
